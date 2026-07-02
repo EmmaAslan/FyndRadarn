@@ -1,25 +1,87 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* Typography */
+  --font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Colors */
+  --heading-primary: #18706a;
+  --heading-secondary: #374151;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-light: #ffffff;
 
-  font: 18px/145% var(--sans);
+  --background-primary: #ffffff;
+  --background-secondary: #f8fafc;
+  --background-card: #ffffff;
+
+  --border-color: #e5e7eb;
+
+  /* Brand */
+  --color-primary: #0f766e;
+  --color-primary-hover: #115e59;
+  --color-link-text: #115e59;
+  --color-link-hover: #6b7e7c;
+
+  /* Buttons */
+  --button-primary: var(--color-primary);
+  --button-primary-hover: var(--color-primary-hover);
+  --button-primary-text: #ffffff;
+
+  --button-secondary: #ffffff;
+  --button-secondary-hover: #f3f4f6;
+  --button-secondary-text: var(--color-primary);
+  --button-secondary-border: #d1d5db;
+
+  --button-padding-y: 10px;
+  --button-padding-x: 12px;
+  --button-font-size: 0.875rem;
+
+  /* Inputs */
+  --input-padding-y: 10px;
+  --input-padding-x: 12px;
+  --input-font-size: 0.875rem;
+
+  --input-background: #ffffff;
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-secondary);
+
+  --input-border: var(--border-color);
+  --input-border-hover: #cbd5e1;
+  --input-border-focus: var(--color-primary);
+
+  --focus-ring: 0 0 0 3px rgba(15, 118, 110, 0.15);
+
+  /* Status */
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Animation */
+  --transition: 0.2s ease;
+  --transition-fast: 150ms ease;
+
+  /* Base */
+  font: 18px/145% var(--font-family);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--text-primary);
+  background: var(--background-primary);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -30,82 +92,39 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  background: var(--background-primary);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-link-text);
+  transition: color var(--transition); 
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  min-height: 100vh;
 }
