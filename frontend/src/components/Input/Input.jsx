@@ -1,3 +1,5 @@
+import "./Input.css";
+
 const Input = ({ className = "", status = "", ...props }) => {
   return (
     <input

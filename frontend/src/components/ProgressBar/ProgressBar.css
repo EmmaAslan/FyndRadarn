@@ -1,0 +1,29 @@
+.active-item-card-progress-bar {
+	height: 5px;
+	border-radius: 999px;
+	overflow: hidden;
+	border: 1px solid var(--border-color);
+}
+
+.mobile-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.desktop-progress-row {
+  display: block;
+}
+
+.progress {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: inherit;
+  transition: width 0.8s ease;
+}
+
+.progress-bar {
+  background: var(--surface-secondary);
+  flex: 1;
+}
+

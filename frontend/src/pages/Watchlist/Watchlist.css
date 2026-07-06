@@ -1,0 +1,274 @@
+/* Watchlist.css */
+.wl-desktop {
+  padding: 2rem;
+}
+
+.wl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wl-header h2 {
+  margin: 0;
+}
+
+.wl-small-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+.wl-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .wl-small-text {
+    margin-bottom: 0.2rem;
+  }
+  .wl-value {
+    font-size: 1rem;
+  }
+}
+
+.wl-card-m,
+.wl-card-d {
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.wl-card-m:hover,
+.wl-card-d:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(15, 118, 110, 0.18);
+}
+
+.wl-card-m p,
+.wl-card-m h3,
+.wl-card-d p,
+.wl-card-d h3 {
+  margin: 0;
+}
+
+/* --- Mobile card --- */
+.wl-cards-m {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.wl-card-m {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.wl-card-m-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.wl-card-m-img img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.wl-card-m-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.wl-card-m-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.wl-card-m-details h3 {
+  font-size: 0.95rem;
+  white-space: normal;
+}
+
+.wl-card-m-store {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+.wl-card-m-pricing {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.wl-card-m-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+}
+
+.wl-card-m-price-change,
+.wl-card-d-price-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #dc2626;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.wl-card-m-target {
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.wl-card-m-target > p {
+  margin: 0;
+}
+
+.wl-label-m,
+.wl-hint-m,
+.wl-label-d,
+.wl-hint-d {
+  color: var(--text-secondary);
+}
+
+.wl-arrow-m {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* --- Desktop card --- */
+.wl-cards-d {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.wl-card-d {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1.15fr) minmax(0, 0.9fr) minmax(0, 0.9fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.1rem;
+}
+
+.wl-card-d-img img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.wl-card-d-details,
+.wl-card-d-pricing,
+.wl-card-d-goal,
+.wl-card-d-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.wl-card-d-details h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1rem;
+}
+
+.wl-card-d-store {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.wl-card-d-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.wl-card-d-goal {
+  text-align: right;
+}
+
+.wl-card-d-actions {
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.wl-card-d-actions .button {
+  font-size: 0.8rem;
+  width: 100%;
+}
+
+.wl-actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 0.25rem;
+}
+
+.wl-arrow-d {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .wl-card-d {
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .wl-card-d-details,
+  .wl-card-d-pricing,
+  .wl-card-d-goal,
+  .wl-card-d-actions {
+    display: none;
+  }
+
+  .wl-card-m {
+    padding: 0.9rem;
+  }
+}
+
+/* Tabs */
+
+.wl-tabs {
+  display: flex;
+  gap: 0.3rem;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.wl-tab {
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.2rem 1rem;
+  border-radius: 5px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.wl-tab-active {
+  background-color: teal;
+  border: 1px solid transparent;
+  padding: 0.2rem 1rem;
+  border-radius: 5px;
+}

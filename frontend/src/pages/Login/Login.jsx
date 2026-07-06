@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import Button from '../../components/Button.jsx'
-import Input from '../../components/Input.jsx'
-import Loading from '../../components/Loading.jsx'
-import './Login.css'
+import { useState } from "react";
+import Button from "../../components/Button/Button.jsx";
+import Input from "../../components/Input/Input.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+import "./Login.css";
 
-const Login = () => { 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
 
   const validateForm = (emailValue, passwordValue) => {
     const newErrors = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     };
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailValue.trim()) {
-      newErrors.email = 'E-post är obligatorisk.';
+      newErrors.email = "E-post är obligatorisk.";
     } else if (!emailRegex.test(emailValue.trim())) {
-      newErrors.email = 'Ange en giltig e-postadress.';
+      newErrors.email = "Ange en giltig e-postadress.";
     }
 
     if (!passwordValue.trim()) {
-      newErrors.password = 'Lösenord är obligatoriskt.';
+      newErrors.password = "Lösenord är obligatoriskt.";
     }
 
     return newErrors;
@@ -42,7 +42,7 @@ const Login = () => {
     const validationErrors = validateForm(email, password);
     setErrors(validationErrors);
 
-    if (Object.values(validationErrors).some((error) => error !== '')) {
+    if (Object.values(validationErrors).some((error) => error !== "")) {
       return;
     }
 
@@ -59,10 +59,10 @@ const Login = () => {
     <div className="login-page">
       <h1> Logga in </h1>
       <form className="login-form" onSubmit={handleLogin}>
-        <Input 
-          type="email" 
-          placeholder="E-post" 
-          status={validated && errors.email ? 'error' : ''}
+        <Input
+          type="email"
+          placeholder="E-post"
+          status={validated && errors.email ? "error" : ""}
           value={email}
           onChange={(e) => {
             const value = e.target.value;
@@ -75,10 +75,10 @@ const Login = () => {
         />
         {errors.email && <p className="login-error">{errors.email}</p>}
 
-        <Input 
-          type="password" 
-          placeholder="Lösenord" 
-          status={validated && errors.password ? 'error' : ''}
+        <Input
+          type="password"
+          placeholder="Lösenord"
+          status={validated && errors.password ? "error" : ""}
           value={password}
           onChange={(e) => {
             const value = e.target.value;
@@ -91,9 +91,9 @@ const Login = () => {
         />
 
         {errors.password && <p className="login-error">{errors.password}</p>}
-        
+
         <Button type="submit" disabled={loading}>
-          {loading ? <Loading size="sm" /> : "Fortsätt"}
+          {loading ? <LoadingSpinner size="sm" /> : "Fortsätt"}
         </Button>
       </form>
 
@@ -106,7 +106,7 @@ const Login = () => {
         </span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

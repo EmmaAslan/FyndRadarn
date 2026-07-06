@@ -4,9 +4,9 @@
   height: 100vh;
 }
 
-.header {
+.header,
+.footer {
   flex-shrink: 0;
-  padding: 0 2rem;
 }
 
 .main {
@@ -15,7 +15,8 @@
   padding: 0 2rem;
 }
 
-.footer {
-  flex-shrink: 0;
-  padding: 0 2rem;
+@media (max-width: 768px) {
+  .main {
+    padding: 0 0.35rem;
+  }
 }

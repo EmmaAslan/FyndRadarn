@@ -1,6 +1,6 @@
-import './Components.css';
+import './LoadingSpinner.css';
 
-const Loading = ({ size = "md" }) => {
+const LoadingSpinner = ({ size = "md" }) => {
   return (
     <div className={`loading loading-${size}`}>
       <span className="loading-spinner"></span>
@@ -8,4 +8,4 @@ const Loading = ({ size = "md" }) => {
   );
 };
 
-export default Loading;
+export default LoadingSpinner;

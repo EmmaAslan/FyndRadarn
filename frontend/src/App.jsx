@@ -1,28 +1,28 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import Footer from './components/Footer.jsx'
-import Header from './components/Header.jsx'
+import Footer from './components/Header&Footer/Footer.jsx'
+import Header from './components/Header&Footer/Header.jsx'
 import Login from './pages/Login/Login.jsx'
 import Signup from './pages/Signup/Signup.jsx'
+import Dashboard from './pages/Dashboard/Dashboard.jsx'
+import Watchlist from './pages/Watchlist/Watchlist.jsx'
 
 function App() {
 
-
   return (
     <div className="app">
-
       <Header />
 
       <main className="main">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/watchlist" element={<Watchlist />} />
         </Routes>
       </main>
 
       <Footer />
-
     </div>
   )
 }

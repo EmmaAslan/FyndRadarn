@@ -1,0 +1,38 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(var(--button-font-size) * 1.45);
+}
+
+.loading-spinner {
+  border: var(--loading-spinner-border);
+  border-top: var(--loading-spinner-border-active);
+  border-radius: 50%;
+
+  width: 28px;
+  height: 28px;
+
+  animation: loading-spin var(--loading-spinner-speed) linear infinite;
+}
+
+.loading-sm .loading-spinner {
+  width: var(--loading-spinner-sm);
+  height: var(--loading-spinner-sm);
+}
+
+.loading-md .loading-spinner {
+  width: var(--loading-spinner-md);
+  height: var(--loading-spinner-md);
+}
+
+.loading-lg .loading-spinner {
+  width: var(--loading-spinner-lg);
+  height: var(--loading-spinner-lg);
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
