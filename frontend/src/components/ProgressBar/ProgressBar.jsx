@@ -1,8 +1,10 @@
 import "./ProgressBar.css";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ProgressBar = ({ currentPrice, targetPrice, className }) => {
   const [animatedProgress, setAnimatedProgress] = useState(0);
+  const { t } = useTranslation();
 
   const remaining = Math.max(0, currentPrice - targetPrice);
   const progress = Math.max(
@@ -28,7 +30,7 @@ const ProgressBar = ({ currentPrice, targetPrice, className }) => {
           }}
         ></div>
       </div>
-      <p className="card-hint small-text">{remaining} kr kvar</p>
+      <p className="card-hint small-text">{remaining} kr {t("progressbar.left")}</p>
     </div>
   );
 };

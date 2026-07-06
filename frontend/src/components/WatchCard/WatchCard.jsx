@@ -11,9 +11,12 @@ import {
 import useScreenSize from "../../hooks/useScreenSize";
 import "./WatchCard.css";
 import ProgressBar from "../ProgressBar/ProgressBar";
+import { useTranslation } from "react-i18next";
 
 const WatchCard = ({ item }) => {
   const screenSize = useScreenSize();
+  const { t } = useTranslation();
+
   return (
     <>
       {screenSize === "mobile" ? (
@@ -47,7 +50,7 @@ const WatchCard = ({ item }) => {
               </div>
 
               <div className="mobile-active-item-card-target">
-                <p className="mobile-card-label small-text">Målpris</p>
+                <p className="mobile-card-label small-text">{t("watchcard.target-price")}</p>
                 <p className="mobile-active-item-card-target-value value">
                   <span>{item.targetPrice} kr</span>
                 </p>
@@ -72,11 +75,11 @@ const WatchCard = ({ item }) => {
               {item.store}
             </div>
             <p className="desktop-card-label small-text">
-              Senast uppdaterad: {item.updated}
+              {t("watchcard.last-updated")}: {item.updated}
             </p>
           </div>
           <div className="desktop-active-item-card-pricing">
-            <p className="desktop-card-label small-text">Nuvarande pris</p>
+            <p className="desktop-card-label small-text">{t("watchcard.current-price")}</p>
             <p className="desktop-active-item-card-price-row">
               <span className="desktop-active-item-card-current value">
                 {item.currentPrice} kr
@@ -86,11 +89,11 @@ const WatchCard = ({ item }) => {
               </span>
             </p>
             <p className="desktop-card-hint small-text">
-              Sedan förra uppdateringen
+              {t("watchcard.since-last-update")}
             </p>
           </div>
           <div className="desktop-active-item-card-goal">
-            <p className="desktop-card-label small-text">Målpris</p>
+            <p className="desktop-card-label small-text">{t("watchcard.target-price")}</p>
             <p className="desktop-active-item-card-target value">
               <span>{item.targetPrice} kr</span>
             </p>
@@ -102,7 +105,7 @@ const WatchCard = ({ item }) => {
           </div>
           <div className="desktop-active-item-card-actions">
             <Button href={item.url} variant="secondary">
-              Visa
+              {t("watchcard.show")}
               <FontAwesomeIcon
                 icon={faArrowUpRightFromSquare}
                 className="fa-arrow-up-right-from-square desktop-show-product-arrow"
@@ -113,7 +116,7 @@ const WatchCard = ({ item }) => {
                 variant="secondary"
                 onClick={() => console.log("Klickad!")}
               >
-                Redigera
+                {t("watchcard.edit")}
               </Button>
 
               <Button

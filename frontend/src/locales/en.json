@@ -1,0 +1,77 @@
+{
+  "header": {
+    "home": "Home",
+    "watchlist": "Watchlist",
+    "add-product": "Add a new product to watch"
+  },
+  "settings": {
+    "settings": "Settings",
+    "language": "Language"
+  },
+  "progressbar": {
+    "left": "left"
+  }, 
+  "watchcard": {
+    "target-price": "Target Price",
+    "current-price": "Current Price",
+    "last-updated": "Last Updated",
+    "since-last-update": "Since Last Update",
+    "show": "Show",
+    "edit": "Edit"
+  },
+  "watchlist": {
+    "your-watchlists": "Your Watchlists",
+    "watch-new-product": "Find a New Product",
+    "active-watchlists": "Active Watchlists",
+    "target-price": "Target Price",
+    "current-price": "Current Price",
+    "all": "All",
+    "active": "Active",
+    "finished": "Finished",
+    "paused": "Paused",
+    "show": "Show",
+    "edit": "Edit"
+  }, 
+  "dashboard": {
+    "title": "Hi {{name}}!",
+    "subtitle": "Welcome to Fyndradarn. Here you can see your latest finds and updates.",
+    "show-all-active": "Show all active watchlists",
+    "active-watchlists": "Active watchlists",
+    "latest-updates": "Latest Updates",
+    "watch-new-product": "Find a New Product",
+    "stats": {
+      "active-watchlists": "Active Watchlists",
+      "target-price": "Target Prices Hit",
+      "saved": "Saved",
+      "notifications": "Notifications"
+    },
+    "notifications": {
+      "price-drop": {
+        "title": "Price Drop",
+        "message": "<strong>{{product}}</strong> dropped {{price}}kr"
+      },
+      "price-increase": {
+        "title": "Price Increase",
+        "message": "<strong>{{product}}</strong> increased {{price}}kr"
+      },
+      "target-price-hit": {
+        "title": "Target Price Hit",
+        "message": "<strong>{{product}}</strong> hit target price"
+      },
+      "lowest-price-hit": {
+        "title": "Lowest Price Hit",
+        "message": "<strong>{{product}}</strong> reached a new lowest price"
+      }
+    }
+  },
+  "formatRelativeDate": {
+    "just-now": "just now",
+    "minute-ago": "1 minute ago",
+    "minutes-ago": "{{minutes}} minutes ago",
+    "hour-ago": "1 hour ago",
+    "hours-ago": "{{hours}} hours ago",
+    "day-ago": "1 day ago",
+    "days-ago": "{{days}} days ago"
+  }
+  
+}

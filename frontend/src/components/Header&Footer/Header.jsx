@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 import './HeaderFooter.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faTag, faCircleUser} from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from 'react-i18next';
 
 
 const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,12 +39,12 @@ const Header = () => {
         </div>
 
         <nav className="header-nav">
-          <NavLink to="/"><FontAwesomeIcon icon={faHouse} />Hem</NavLink>
-          <NavLink to="/watchlist"><FontAwesomeIcon icon={faTag} />Bevakningar</NavLink>
+          <NavLink to="/"><FontAwesomeIcon icon={faHouse} />{t("header.home")}</NavLink>
+          <NavLink to="/watchlist"><FontAwesomeIcon icon={faTag} />{t("header.watchlist")}</NavLink>
         </nav>
 
         <div className="header-actions">
-          <NavLink to="/profile"><FontAwesomeIcon icon={faCircleUser} />[namn]</NavLink>
+          <NavLink to="/settings"><FontAwesomeIcon icon={faCircleUser} />[namn]</NavLink>
         </div>
       </header>
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const getScreenSize = () => (window.innerWidth < 768 ? 'mobile' : 'desktop')
+const getScreenSize = () => (window.innerWidth <= 768 ? "mobile" : "desktop")
 
 const useScreenSize = () => {
   const [screenSize, setScreenSize] = useState(getScreenSize)

@@ -1,0 +1,77 @@
+{
+  "header": {
+    "home": "Hem",
+    "watchlist": "Bevakningar",
+    "add-product": "Lägg till en ny produkt att bevaka"
+  },
+  "settings": {
+    "settings": "Inställningar",
+    "language": "Språk"
+  },
+  "progressbar": {
+    "left": "kvar"
+  }, 
+  "watchcard": {
+    "target-price": "Målpris",
+    "current-price": "Nuvarande pris",
+    "last-updated": "Senast uppdaterad",
+    "since-last-update": "Sedan förra uppdateringen",
+    "show": "Visa",
+    "edit": "Redigera"
+  },
+  "watchlist": {
+    "your-watchlists": "Dina bevakningar",
+    "watch-new-product": "Fynda något nytt",
+    "active-watchlists": "Aktiva bevakningar",
+    "target-price": "Målpris",
+    "current-price": "Nuvarande pris",
+    "all": "Alla",
+    "active": "Aktiva",
+    "finished": "Avslutade",
+    "paused": "Pausade",
+    "show": "Visa",
+    "edit": "Redigera"
+  }, 
+  "dashboard": {
+    "title": "Hej {{name}}!",
+    "subtitle": "Välkommen till Fyndradarn. Här kan du se dina senaste fynd och uppdateringar.",
+    "watch-new-product": "Fynda något nytt",
+    "show-all-active": "Se alla aktiva fynd",
+    "active-watchlists": "Aktiva bevakningar",
+    "latest-updates": "Senaste uppdateringar",
+    "stats": {
+      "active-watchlists": "Aktiva bevakningar",
+      "target-price": "Träffade målpriser",
+      "saved": "Sparat",
+      "notifications": "Notiser"
+    },
+    "notifications": {
+      "price-drop": {
+        "title": "Prissänkning",
+        "message":  "<strong>{{product}}</strong> sjönk {{price}}kr"
+      },
+      "price-increase": {
+        "title": "Prishöjning",
+        "message": "<strong>{{product}}</strong> steg {{price}}kr"
+      },
+      "target-price-hit": {
+        "title": "Målpris träffat",
+        "message": "<strong>{{product}}</strong> nådde ditt målpris"
+      },
+      "lowest-price-hit": {
+        "title": "Lägsta pris träffat",
+        "message": "<strong>{{product}}</strong> nådde sitt lägsta pris hittills"
+      }
+    }
+  } ,
+  "formatRelativeDate": {
+    "just-now": "nyligen",
+    "minute-ago": "1 minut sedan",
+    "minutes-ago": "{{minutes}} minuter sedan",
+    "hour-ago": "1 timme sedan",
+    "hours-ago": "{{hours}} timmar sedan",
+    "day-ago": "1 dag sedan",
+    "days-ago": "{{days}} dagar sedan"
+  }
+
+}

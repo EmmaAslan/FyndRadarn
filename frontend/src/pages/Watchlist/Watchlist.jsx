@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import useScreenSize from "../../hooks/useScreenSize";
 import Button from "../../components/Button/Button";
+import { useTranslation } from "react-i18next";
 
 import watchlists from "../../data/watchlists";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
@@ -17,25 +18,25 @@ import ProgressBar from "../../components/ProgressBar/ProgressBar";
 const Watchlist = () => {
   const screenSize = useScreenSize();
   const [activeTab, setActiveTab] = useState("all");
+  const { t } = useTranslation();
 
   const filteredItems = watchlists.filter((item) => {
     if (activeTab === "all") return true;
     return item.status === activeTab;
   });
 
-
   return (
     <>
       {screenSize === "mobile" ? (
         <div className="wl-mobile">
           <div className="wl-header">
-            <h2>Dina bevakningar!</h2>
-            <Button type="primary" onClick={() => console.log("Klickad!")}>
-              + Fynda något nytt
+            <h2>{t("watchlist.your-watchlists")}</h2>
+            <Button type="primary" to="/add-product">
+              + {t("watchlist.watch-new-product")}
             </Button>
           </div>
 
-          <h2 className="wl-dashboard-section-title">Aktiva bevakningar</h2>
+          <h2 className="wl-dashboard-section-title">{t("watchlist.active-watchlists")}</h2>
           <div className="wl-cards-m">
             {filteredItems.map((item) => (
               <div key={item.id} className="wl-card-m card">
@@ -71,7 +72,7 @@ const Watchlist = () => {
                     </div>
 
                     <div className="wl-card-m-target">
-                      <p className="wl-label-m wl-small-text">Målpris</p>
+                      <p className="wl-label-m wl-small-text">{t("watchlist.target-price")}</p>
                       <p className="wl-card-m-target-value wl-value">
                         <span>{item.targetPrice} kr</span>
                       </p>
@@ -90,27 +91,47 @@ const Watchlist = () => {
       ) : (
         <div className="wl-desktop">
           <div className="wl-header">
-            <h2>Dina bevakningar!</h2>
-            <Button type="primary" onClick={() => console.log("Klickad!")}>
-              + Fynda något nytt
+            <h2>{t("watchlist.your-watchlists")}</h2>
+            <Button type="primary" to="/add-product">
+              + {t("watchlist.watch-new-product")}
             </Button>
           </div>
 
           <div className="wl-content">
             <div className="wl-tabs">
-              <button className={"wl-tab" + (activeTab === "all" ? " wl-tab-active" : "")} onClick={() => setActiveTab("all")}>
+              <button
+                className={
+                  "wl-tab" + (activeTab === "all" ? " wl-tab-active" : "")
+                }
+                onClick={() => setActiveTab("all")}
+              >
                 Alla ({watchlists.length})
               </button>
-              <button className={"wl-tab" + (activeTab === "active" ? " wl-tab-active" : "")} onClick={() => setActiveTab("active")}>
+              <button
+                className={
+                  "wl-tab" + (activeTab === "active" ? " wl-tab-active" : "")
+                }
+                onClick={() => setActiveTab("active")}
+              >
                 Aktiva (
                 {watchlists.filter((item) => item.status === "active").length})
               </button>
-              <button className={"wl-tab" + (activeTab === "finished" ? " wl-tab-active" : "")} onClick={() => setActiveTab("finished")}>
+              <button
+                className={
+                  "wl-tab" + (activeTab === "finished" ? " wl-tab-active" : "")
+                }
+                onClick={() => setActiveTab("finished")}
+              >
                 Avslutade (
                 {watchlists.filter((item) => item.status === "finished").length}
                 )
               </button>
-              <button className={"wl-tab" + (activeTab === "paused" ? " wl-tab-active" : "")} onClick={() => setActiveTab("paused")}>
+              <button
+                className={
+                  "wl-tab" + (activeTab === "paused" ? " wl-tab-active" : "")
+                }
+                onClick={() => setActiveTab("paused")}
+              >
                 Pausade (
                 {watchlists.filter((item) => item.status === "paused").length})
               </button>
@@ -148,11 +169,11 @@ const Watchlist = () => {
                       {item.store}
                     </div>
                     <p className="wl-label-d wl-small-text">
-                      Senast uppdaterad: {item.updated}
+                      {t("watchlist.last-updated")}: {item.updated}
                     </p>
                   </div>
                   <div className="wl-card-d-pricing">
-                    <p className="wl-label-d wl-small-text">Nuvarande pris</p>
+                    <p className="wl-label-d wl-small-text">{t("watchlist.current-price")}</p>
                     <p className="wl-card-d-price">
                       <span className="wl-card-d-current wl-value">
                         {item.currentPrice} kr
@@ -162,11 +183,11 @@ const Watchlist = () => {
                       </span>
                     </p>
                     <p className="wl-hint-d wl-small-text">
-                      Sedan förra uppdateringen
+                      {t("watchlist.since-last-update")}
                     </p>
                   </div>
                   <div className="wl-card-d-goal">
-                    <p className="wl-label-d wl-small-text">Målpris</p>
+                    <p className="wl-label-d wl-small-text">{t("watchlist.target-price")}</p>
                     <p className="wl-card-d-target wl-value">
                       <span>{item.targetPrice} kr</span>
                     </p>
@@ -178,7 +199,7 @@ const Watchlist = () => {
                   </div>
                   <div className="wl-card-d-actions">
                     <Button href={item.url} variant="secondary">
-                      Visa
+                      {t("watchlist.show")}
                       <FontAwesomeIcon
                         icon={faArrowUpRightFromSquare}
                         className="fa-arrow-up-right-from-square wl-arrow-d"
@@ -189,7 +210,7 @@ const Watchlist = () => {
                         variant="secondary"
                         onClick={() => console.log("Klickad!")}
                       >
-                        Redigera
+                        {t("watchlist.edit")}
                       </Button>
 
                       <Button
