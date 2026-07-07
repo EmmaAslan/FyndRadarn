@@ -1,8 +1,14 @@
 # FyndRadarn
 
-FyndRadarn is a portfolio project focused on building a modern web application for tracking product prices across multiple online stores. Users can create personal watchlists, set target prices, and monitor price changes over time.
+FyndRadarn is a portfolio project focused on building a modern full-stack web application for tracking product prices across multiple online stores. Users will be able to create personal watchlists, set target prices, and monitor price changes over time.
+
+The project is currently in active development, with the backend and database foundation in place while the core price tracking functionality is being implemented.
 
 > ⚠️ This project is currently under development.
+
+## Current Status
+
+The backend foundation has been established with Express and PostgreSQL. Current development is focused on implementing the core product price tracking workflow for the first MVP.
 
 ## Project Goals
 
@@ -25,19 +31,31 @@ FyndRadarn aims to provide users with a simple way to:
 - JavaScript (ES6+)
 - CSS
 
-### Backend (planned)
+### Backend
 
 - Node.js
 - Express
+- PostgreSQL (`pg`)
+- dotenv
 
-### Database (planned)
+### Database
 
-- PostgreSQL
+- PostgreSQL (Supabase)
 
+## Roadmap
 
-## Current Status
+### MVP 1 - Anonymous Price Tracking
 
-This project is actively being developed as part of my portfolio. New features and improvements are continuously being added as the project evolves.
+- [ ] Enter email address
+- [ ] Paste product URL
+- [ ] Validate submitted data
+- [ ] Fetch current product price
+- [x] Create a watchlist
+- [x] Store watchlist in PostgreSQL
+- [ ] Display successful watchlist creation
+- [ ] Run scheduled price checks
+- [ ] Detect price changes
+- [ ] Send email notifications
 
 ## Screenshots
 
