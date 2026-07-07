@@ -8,6 +8,7 @@ const Button = ({
   variant = "primary",
   to,
   href,
+  ...props
 }) => {
   if (href) {
     return (
@@ -31,7 +32,7 @@ const Button = ({
   }
 
   return (
-    <button type={buttonType} onClick={onClick} className={`button ${variant}`}>
+    <button type={buttonType} onClick={onClick} className={`button ${variant}`} {...props}>
       {children}
     </button>
   );

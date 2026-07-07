@@ -36,7 +36,7 @@ const Dashboard = () => {
       {screenSize === "mobile" ? (
         <div className="dashboard-mobile">
           <div className="dashboard-header">
-            <h2>{t("dashboard.title", { name: "Emma" })}</h2>
+            <h1>{t("dashboard.title", { name: "Emma" })}</h1>
             <span>{t("dashboard.subtitle")}</span>
 
             <Button type="primary" to="/add-product">
@@ -101,7 +101,7 @@ const Dashboard = () => {
       ) : (
         <div className="dashboard-desktop">
           <div className="dashboard-header">
-            <h2>{t("dashboard.title", { name: "Emma" })}</h2>
+            <h1>{t("dashboard.title", { name: "Emma" })}</h1>
             <span>{t("dashboard.subtitle")}</span>
 
             <Button type="primary" to="/add-product">
