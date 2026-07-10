@@ -2,7 +2,7 @@ import "./StartPage.css";
 import { useState } from "react";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-import { getWatchlists } from "../../services/watchlistService";
+import { getWatchlists, createWatchlist } from "../../services/watchlistService";
 
 const StartPage = () => {
   const [createEmail, setCreateEmail] = useState("");
@@ -11,7 +11,7 @@ const StartPage = () => {
   const [startPrice, setStartPrice] = useState("");
   const [watchlists, setWatchlists] = useState([]);
 
-  const fetchWatchlists = async (event) => {
+  const handleGetWatchlists = async (event) => {
     event.preventDefault();
 
     try {
@@ -21,7 +21,25 @@ const StartPage = () => {
     } catch (error) {
       console.error("Error fetching watchlists:", error);
     }
-  }
+  };
+
+  const handleCreateWatchlist = async (event) => {
+    event.preventDefault();
+
+    const watchlistData = {
+      email: createEmail,
+      product_url: productUrl,
+      start_price: startPrice,
+      latest_price: startPrice,
+    };
+
+    try {
+      const data = await createWatchlist(watchlistData);
+      setWatchlists((prevWatchlists) => [...prevWatchlists, data]);
+    } catch (error) {
+      console.error("Error creating watchlist:", error);
+    }
+  };
 
   return (
     <div className="start-page">
@@ -29,47 +47,19 @@ const StartPage = () => {
       <div className="start-page-content">
         <div className="start-page-card">
           <h2>Create a new Watchlist</h2>
-          <form className="create-watchlist-form">
-            <Input
-              label="Create Email"
-              name="email"
-              type="email"
-              placeholder="Your email"
-              value={createEmail}
-              onChange={(e) => setCreateEmail(e.target.value)}
-            />
-            <Input
-              label="Product URL"
-              name="url"
-              type="text"
-              placeholder="Add product URL"
-              value={productUrl}
-              onChange={(e) => setProductUrl(e.target.value)}
-            />
-            <Input
-              label="Start Price"
-              name="startPrice"
-              type="number"
-              placeholder="Add the start price"
-              value={startPrice}
-              onChange={(e) => setStartPrice(e.target.value)}
-            />
+          <form className="create-watchlist-form" onSubmit={handleCreateWatchlist}>
+            <Input label="Create Email" name="email" type="email" placeholder="Your email" value={createEmail} onChange={(e) => setCreateEmail(e.target.value)} />
+            <Input label="Product URL" name="url" type="text" placeholder="Add product URL" value={productUrl} onChange={(e) => setProductUrl(e.target.value)} />
+            <Input label="Start Price" name="startPrice" type="number" placeholder="Add the start price" value={startPrice} onChange={(e) => setStartPrice(e.target.value)} />
 
-            <Button >Add to Watchlist</Button>
+            <Button type="submit">Add to Watchlist</Button>
           </form>
         </div>
         <div className="start-page-card">
           <h2>My Watchlists</h2>
-          <form className="search-watchlists-form" onSubmit={fetchWatchlists}>
-            <Input
-              label="Search Email"
-              name="email"
-              type="email"
-              placeholder="Your email"
-              value={searchEmail}
-              onChange={(e) => setSearchEmail(e.target.value)}
-            />
-            <Button type="submit" >Search for Watchlists</Button>
+          <form className="search-watchlists-form" onSubmit={handleGetWatchlists}>
+            <Input label="Search Email" name="email" type="email" placeholder="Your email" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
+            <Button type="submit">Search for Watchlists</Button>
           </form>
 
           <div className="divider"></div>
@@ -81,7 +71,7 @@ const StartPage = () => {
                   <h4>{item.product_url}</h4>
                   <div className="watchlist-item-info">
                     <span>Start: {item.start_price} kr</span>
-                    <span>Nu: {item.latest_price} kr</span>
+                    <span>Latest: {item.latest_price} kr</span>
                   </div>
                 </div>
                 <span className="watchlist-item-date">{item.last_price_change_at}</span>
