@@ -28,7 +28,26 @@ const createWatchlist = async (req, res) => {
   }
 };
 
+const getWatchlists = async (req, res) => {
+
+  try {
+    const result = await pool.query(
+      `
+      SELECT * FROM watchlists
+      ORDER BY created_at DESC
+      `
+    )
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Error fetching watchlists:", error);
+    res.status(500).json({
+      message: "Something went wrong.",
+    });
+  }
+};
+
 
 module.exports = {
   createWatchlist,
+  getWatchlists,
 };

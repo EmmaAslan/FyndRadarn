@@ -1,29 +1,28 @@
-import { NavLink } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import './HeaderFooter.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faTag, faCircleUser} from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from 'react-i18next';
-
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import "./HeaderFooter.css";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faHouse, faTag, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+// import { useTranslation } from "react-i18next";
 
 const Header = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-  const { t } = useTranslation();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  // const { t } = useTranslation();
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
+      setIsMobile(window.innerWidth < 768);
+    };
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <> 
-    {isMobile ? (
+    <>
+      {/* {isMobile ? (
       <header className="header-mobile">
         <div className="header-logo">
           <NavLink to="/"><h1>FyndRadarn</h1></NavLink>
@@ -48,10 +47,26 @@ const Header = () => {
         </div>
       </header>
 
-    )}
+    )} */}
+      {isMobile ? (
+        <header className="header-mobile">
+          <div className="header-logo">
+            <NavLink to="/">
+              <h1>FyndRadarn</h1>
+            </NavLink>
+          </div>
+        </header>
+      ) : (
+        <header className="header">
+          <div className="header-logo">
+            <NavLink to="/">
+              <h1>FyndRadarn</h1>
+            </NavLink>
+          </div>
+        </header>
+      )}
     </>
-    
-  )
-}
+  );
+};
 
 export default Header;

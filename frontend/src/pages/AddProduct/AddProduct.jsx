@@ -47,7 +47,7 @@ const AddProduct = () => {
           {loading && <LoadingSpinner />}
           {product && (
             <div className="ap-product-wrapper">
-              <div className="ap-separator"></div>
+              <div className="ap-divider"></div>
               <span className="ap-product-info-message">
                 <FontAwesomeIcon icon={faCircleCheck} /> Produkt hittad!
               </span>

@@ -37,7 +37,7 @@
   height: 100%;
 }
 
-.ap-separator {
+.ap-divider {
   border-top: 1px solid var(--border-color);
   margin: 1rem 0;
 }
