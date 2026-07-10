@@ -1,21 +1,25 @@
 const pool = require("../config/database");
+const { parse } = require("../parsers/webhallenParser");
 
 const createWatchlist = async (req, res) => {
-  const { email, product_url, start_price, latest_price } = req.body;
+  const { email, product_url } = req.body;
 
   try {
+    const { title, price } = await parse(product_url);
+
     const result = await pool.query(
       `
       INSERT INTO watchlists (
         email,
         product_url,
         start_price,
-        latest_price
+        latest_price,
+        product_title
       )
-      VALUES ($1, $2, $3, $4)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING *
       `,
-      [email, product_url, start_price, latest_price]
+      [email, product_url, price, price, title]
     );
   
     res.status(201).json(result.rows[0]);
