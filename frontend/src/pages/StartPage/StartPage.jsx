@@ -32,7 +32,7 @@ const StartPage = () => {
 
     try {
       const data = await createWatchlist(watchlistData);
-      setWatchlists((prevWatchlists) => [...prevWatchlists, data]);
+      setWatchlists((prevWatchlists) => [data,...prevWatchlists]);
     } catch (error) {
       console.error("Error creating watchlist:", error);
     }

@@ -1,13 +1,18 @@
+const { getPage } = require("./helpers/playwright");
+
 const parse = async (url) => {
-  const data = {
-    title: "ASUS ROG Strix XG27AQDMES",
-    price: 5490,
-  };
+  const { browser, page } = await getPage(url);
 
-  console.log("Parsing Webhallen URL:", url);
-  console.log("Parsed Data:", data);
+  const title = await page.locator("h1").textContent();
+  const priceSelector = await page.locator("#add-product-to-cart > div.price-value._large._center > span").textContent();
+  const price = parseInt(priceSelector.replaceAll(" ", "").replace("kr", ""), 10);
 
-  return data;
+  console.log("title", title);
+  console.log("price", price);
+
+  await browser.close();
+
+  return { title, price };
 };
 
 module.exports = { parse };
