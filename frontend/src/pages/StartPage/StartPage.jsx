@@ -9,14 +9,19 @@ const StartPage = () => {
   const [searchEmail, setSearchEmail] = useState("");
   const [productUrl, setProductUrl] = useState("");
   const [watchlists, setWatchlists] = useState([]);
+  const [clickedButton, setClickedButton] = useState(false);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isValidSearchEmail = emailRegex.test(searchEmail);
 
   const handleGetWatchlists = async (event) => {
     event.preventDefault();
 
     try {
-      const data = await getWatchlists();
+      const data = await getWatchlists(searchEmail);
 
       setWatchlists(data);
+      setClickedButton(true);
     } catch (error) {
       console.error("Error fetching watchlists:", error);
     }
@@ -32,7 +37,7 @@ const StartPage = () => {
 
     try {
       const data = await createWatchlist(watchlistData);
-      setWatchlists((prevWatchlists) => [data,...prevWatchlists]);
+      setWatchlists((prevWatchlists) => [data, ...prevWatchlists]);
     } catch (error) {
       console.error("Error creating watchlist:", error);
     }
@@ -55,25 +60,37 @@ const StartPage = () => {
           <h2>My Watchlists</h2>
           <form className="search-watchlists-form" onSubmit={handleGetWatchlists}>
             <Input label="Search Email" name="email" type="email" placeholder="Your email" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
-            <Button type="submit">Search for Watchlists</Button>
+            <Button type="submit" disabled={!isValidSearchEmail}>
+              Search for Watchlists
+            </Button>
           </form>
 
-          <div className="divider"></div>
+          {clickedButton && (
+            <>
+              <div className="divider"></div>
 
-          <div className="watchlists-container">
-            {watchlists.map((item) => (
-              <div key={item.id} className="watchlist-item">
-                <div className="watchlist-item-content">
-                  <h4>{item.product_title || item.product_url}</h4>
-                  <div className="watchlist-item-info">
-                    <span>Start: {item.start_price} kr</span>
-                    <span>Latest: {item.latest_price} kr</span>
-                  </div>
+              {watchlists.length > 0 ? (
+                <div className="watchlists-container">
+                  {watchlists.map((item) => (
+                    <div key={item.id} className="watchlist-item">
+                      <div className="watchlist-item-content">
+                        <h4>{item.product_title || item.product_url}</h4>
+                        <div className="watchlist-item-info">
+                          <span>Start: {item.start_price} kr</span>
+                          <span>Latest: {item.latest_price} kr</span>
+                        </div>
+                      </div>
+                      <span className="watchlist-item-date">{item.last_price_change_at}</span>
+                    </div>
+                  ))}
                 </div>
-                <span className="watchlist-item-date">{item.last_price_change_at}</span>
-              </div>
-            ))}
-          </div>
+              ) : (
+                <>
+                  <span>No watchlists could be found </span>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

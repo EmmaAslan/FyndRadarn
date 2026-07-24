@@ -1,5 +1,5 @@
-export const getWatchlists = async () => {
-  const response = await fetch("http://localhost:3000/watchlists");
+export const getWatchlists = async (email) => {
+  const response = await fetch(`http://localhost:3000/watchlists?email=${encodeURIComponent(email)}`);
   return response.json();
 };
 
