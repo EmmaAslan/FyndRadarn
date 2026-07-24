@@ -1,6 +1,31 @@
 const pool = require("../config/database");
 const { parse } = require("../parsers/index");
 
+const previewWatchlist = async (req, res) => {
+  const { product_url } = req.body;
+
+  try {
+    const { title, price } = await parse(product_url);
+
+    res.status(200).json({
+      title,
+      price,
+    });
+  } catch (error) {
+    console.error("Error fetching watchlists:", error);
+
+    if (error.message === "This store is not supported yet.") {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
+    res.status(500).json({
+      message: "Something went wrong.",
+    });
+  }
+};
+
 const createWatchlist = async (req, res) => {
   const { email, product_url } = req.body;
 
@@ -19,20 +44,19 @@ const createWatchlist = async (req, res) => {
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *
       `,
-      [email, product_url, price, price, title]
+      [email, product_url, price, price, title],
     );
-  
+
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error("Error creating watchlist:", error);
-    
+
     if (error.message === "This store is not supported yet.") {
       return res.status(400).json({
         message: error.message,
       });
     }
 
-    
     res.status(500).json({
       message: "Something went wrong.",
     });
@@ -55,21 +79,21 @@ const getWatchlists = async (req, res) => {
       WHERE email = $1
       ORDER BY created_at DESC
       `,
-      [email]
+      [email],
     );
-    
+
     res.status(200).json(result.rows);
   } catch (error) {
     console.error("Error fetching watchlists:", error);
-    
+
     res.status(500).json({
       message: "Something went wrong.",
     });
   }
 };
 
-
 module.exports = {
+  previewWatchlist,
   createWatchlist,
   getWatchlists,
 };

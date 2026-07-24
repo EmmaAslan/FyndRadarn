@@ -20,6 +20,7 @@
   flex-direction: row;
   width: 100%;
   gap: 2rem;
+  align-items: flex-start;
 }
 
 .start-page-card {
@@ -105,4 +106,70 @@
   color: var(--color-text-secondary);
   font-size: 0.85rem;
   white-space: nowrap;
+}
+
+.success-message {
+  color: var(--color-success);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.product-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-preview h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.product-preview-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-preview-content span:first-child {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.product-preview-content small {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+} 
+
+.preview-price > span {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.preview-price {
+  display: flex;
+  flex-direction: column;
+}
+
+.error-message {
+  display: block;
+  text-align: center;
+  color: var(--color-error);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  
+}
+
+.message {
+  display: block;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
 }

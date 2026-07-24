@@ -1,8 +1,9 @@
 const express = require("express");
-const { createWatchlist, getWatchlists } = require("../controllers/watchlistController");
+const { previewWatchlist, createWatchlist, getWatchlists } = require("../controllers/watchlistController");
 
 const router = express.Router();
 
+router.post("/preview", previewWatchlist);
 router.post("/", createWatchlist);
 router.get("/", getWatchlists);
 
