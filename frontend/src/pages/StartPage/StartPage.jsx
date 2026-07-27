@@ -159,7 +159,7 @@ const StartPage = () => {
                           <span>Latest: {item.latest_price} kr</span>
                         </div>
                       </div>
-                      <span className="watchlist-item-date">{item.last_price_change_at}</span>
+                      <span className="watchlist-item-date">{item.last_price_change_at ? new Date(item.last_price_change_at).toLocaleString() : "No price changes"}</span>
                     </div>
                   ))}
                 </div>

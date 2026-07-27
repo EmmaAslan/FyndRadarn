@@ -9,10 +9,6 @@ const parse = async (url) => {
   const priceSelector = await page.locator("#add-product-to-cart > div.price-value._large._center > span").evaluate((el) => el.firstChild.textContent);
   const price = parseInt(priceSelector.replace(/\D/g, ""), 10);
 
-  console.log("title", title);
-  console.log("priceSelector", priceSelector);
-  console.log("price", price);
-
   await browser.close();
 
   return { title, price };

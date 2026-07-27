@@ -1,5 +1,6 @@
 const { parse } = require("../parsers");
 const pool = require("../config/database");
+const { sendPriceChangeEmail } = require("./emailService");
 
 const checkPrice = async (watchlist) => {
   const product = await parse(watchlist.product_url);
@@ -16,11 +17,7 @@ const checkAllPrices = async () => {
   const result = await pool.query("SELECT * FROM watchlists");
 
   for (const watchlist of result.rows) {
-    //console.log("Kontrollerar:", watchlist.product_url);
-
     const priceCheckResult = await checkPrice(watchlist);
-
-    //console.log(priceCheckResult);
 
     if (priceCheckResult.hasChanged) {
       await pool.query(
@@ -31,6 +28,7 @@ const checkAllPrices = async () => {
         WHERE id = $1`,
         [watchlist.id, priceCheckResult.newPrice],
       );
+      await sendPriceChangeEmail(watchlist.email, watchlist.product_title, priceCheckResult.oldPrice, priceCheckResult.newPrice, watchlist.product_url);
     }
   }
 };
