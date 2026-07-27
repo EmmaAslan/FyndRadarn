@@ -1,5 +1,5 @@
 const pool = require("../config/database");
-const { parse } = require("../parsers/index");
+const { parse } = require("../parsers");
 
 const previewWatchlist = async (req, res) => {
   const { product_url } = req.body;

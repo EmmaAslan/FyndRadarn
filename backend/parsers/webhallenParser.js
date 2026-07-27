@@ -3,7 +3,9 @@ const { getPage } = require("./helpers/playwright");
 const parse = async (url) => {
   const { browser, page } = await getPage(url);
 
-  const title = await page.locator("h1").textContent();
+  const titleLocator = page.locator("h1");
+
+  const title = await titleLocator.first().textContent();
   const priceSelector = await page.locator("#add-product-to-cart > div.price-value._large._center > span").evaluate((el) => el.firstChild.textContent);
   const price = parseInt(priceSelector.replace(/\D/g, ""), 10);
 
