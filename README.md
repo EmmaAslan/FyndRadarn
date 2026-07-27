@@ -89,7 +89,7 @@ FyndRadarn aims to provide users with a simple way to:
 
 ## Demo 
 ### MVP 1
-[▶️ Watch demo](assets/demo_mvp1_fyndradarn.mp4) 
+[▶️ Watch demo](assets/mvp1-fyndradarn-demo.mp4) 
 
 ## Screenshots 
 
