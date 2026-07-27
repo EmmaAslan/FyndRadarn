@@ -1,5 +1,6 @@
 const pool = require("../config/database");
 const { parse } = require("../parsers");
+const { sendCreatedWatchlistEmail } = require("../services/emailService")
 
 const previewWatchlist = async (req, res) => {
   const { product_url } = req.body;
@@ -47,7 +48,11 @@ const createWatchlist = async (req, res) => {
       [email, product_url, price, price, title],
     );
 
+    await sendCreatedWatchlistEmail(email, title, price, product_url);
+
     res.status(201).json(result.rows[0]);
+
+
   } catch (error) {
     console.error("Error creating watchlist:", error);
 
