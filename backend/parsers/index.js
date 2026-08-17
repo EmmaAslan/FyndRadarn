@@ -5,6 +5,7 @@ const stores = [
   { domain: "kjell.com", parser: require("./kjellCompanyParser").parse },
   { domain: "clasohlson.com", parser: require("./clasOhlsonParser").parse },
   { domain: "ikea.com", parser: require("./ikeaParser").parse },
+  { domain: "lagerhaus.se", parser: require("./lagerhausParser").parse },
 ];
 
 const parse = async (url) => {
