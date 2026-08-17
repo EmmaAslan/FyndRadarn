@@ -3,6 +3,7 @@ const stores = [
   { domain: "ahlens.com", parser: require("./ahlensParser").parse },
   { domain: "elgiganten.se", parser: require("./elgigantenParser").parse },
   { domain: "kjell.com", parser: require("./kjellCompanyParser").parse },
+  { domain: "clasohlson.com", parser: require("./clasOhlsonParser").parse },
 ];
 
 const parse = async (url) => {
