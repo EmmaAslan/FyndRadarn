@@ -1,15 +1,15 @@
-const { parse: parseWebhallen } = require("./webhallenParser");
-const { parse: parseAhlens } = require("./ahlensParser");
+const stores = [
+  { domain: "webhallen.com", parser: require("./webhallenParser").parse },
+  { domain: "ahlens.com", parser: require("./ahlensParser").parse },
+  { domain: "elgiganten.se", parser: require("./elgigantenParser").parse },
+];
 
 const parse = async (url) => {
-  if (url.includes("webhallen")) {
-    return await parseWebhallen(url);
-  } 
-  if (url.includes("ahlens")) {
-    return await parseAhlens(url);
+  const store = stores.find((store) => url.includes(store.domain));
+  if (store) {
+    return await store.parser(url);
   }
-  
-  throw new Error("This store is not supported yet.")
+  throw new Error("This store is not supported yet.");
 };
 
 module.exports = { parse };
