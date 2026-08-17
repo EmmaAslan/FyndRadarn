@@ -8,7 +8,7 @@ const parse = async (url) => {
     const titleLocator = page.locator("h1");
     const title = await titleLocator.first().textContent();
 
-    const priceSelector = await page.locator("#add-product-to-cart > div.price-value._large._center > span").evaluate((el) => el.firstChild.textContent);
+    const priceSelector = await page.locator(".text-title1-bold").first().textContent();
     const price = parsePrice(priceSelector);
 
     return { title, price };
