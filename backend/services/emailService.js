@@ -3,11 +3,12 @@ const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND);
 
 const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, productUrl) => {
-  const result = await resend.emails.send({
-    from: "FyndRadarn <onboarding@resend.dev>",
-    to: email,
-    subject: `You're now tracking: ${productTitle}`,
-    html: `
+  try {
+    return await resend.emails.send({
+      from: "FyndRadarn <onboarding@resend.dev>",
+      to: email,
+      subject: `You're now tracking: ${productTitle}`,
+      html: `
     <h1>Price tracking is now active for this product.</h1>
     <h2>${productTitle}</h2>
 
@@ -16,17 +17,19 @@ const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, produc
     <p><a href="${productUrl}">Go to product</a></p>
 
     `,
-  });
-
-  return result;
+    });
+  } catch (error) {
+    throw new Error("Email could not be sent.");
+  }
 };
 
 const sendPriceChangeEmail = async (email, productTitle, oldPrice, newPrice, productUrl) => {
-  const result = await resend.emails.send({
-    from: "FyndRadarn <onboarding@resend.dev>",
-    to: email,
-    subject: `Price Alert: ${productTitle}`,
-    html: `
+  try {
+    return await resend.emails.send({
+      from: "FyndRadarn <onboarding@resend.dev>",
+      to: email,
+      subject: `Price Alert: ${productTitle}`,
+      html: `
     <h1>Price change detected!</h1>
     <h2>${productTitle}</h2>
 
@@ -40,9 +43,10 @@ const sendPriceChangeEmail = async (email, productTitle, oldPrice, newPrice, pro
     <p><a href="${productUrl}">Go to product</a></p>
 
     `,
-  });
-
-  return result;
+    });
+  } catch (error) {
+    throw new Error("Email could not be sent.");
+  }
 };
 
 module.exports = {

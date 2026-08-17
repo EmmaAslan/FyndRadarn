@@ -1,5 +1,6 @@
 const { getPage } = require("./helpers/playwright");
 const { parsePrice } = require("./helpers/parsePrice");
+const { validateProduct } = require("./helpers/validateProduct");
 
 const parse = async (url) => {
   const { browser, page } = await getPage(url);
@@ -11,6 +12,7 @@ const parse = async (url) => {
     const priceSelector = await page.locator(".product__discount-price, .product__price-value").first().textContent();
     const price = parsePrice(priceSelector);
 
+    validateProduct(title, price);
     return { title, price };
   } finally {
     await browser.close();

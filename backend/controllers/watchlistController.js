@@ -21,6 +21,18 @@ const previewWatchlist = async (req, res) => {
       });
     }
 
+    if (error.message === "Invalid URL.") {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
+    if (error.message === "Could not find product information.") {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
     res.status(500).json({
       message: "Something went wrong.",
     });
@@ -29,11 +41,12 @@ const previewWatchlist = async (req, res) => {
 
 const createWatchlist = async (req, res) => {
   const { email, product_url } = req.body;
+  let result;
 
   try {
     const { title, price } = await parse(product_url);
 
-    const result = await pool.query(
+    result = await pool.query(
       `
       INSERT INTO watchlists (
         email,
@@ -56,12 +69,36 @@ const createWatchlist = async (req, res) => {
   } catch (error) {
     console.error("Error creating watchlist:", error);
 
+    if (error.message === "Email could not be sent.") {
+      await pool.query(
+        "DELETE FROM watchlists WHERE id = $1",
+        [result.rows[0].id],
+      );
+
+      return res.status(500).json({
+        message: "The watchlist could not be created because the confirmation email could not be sent.",
+      });
+
+    }
+
     if (error.message === "This store is not supported yet.") {
       return res.status(400).json({
         message: error.message,
       });
     }
 
+    if (error.message === "Invalid URL.") {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
+    if (error.message === "Could not find product information.") {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+    
     res.status(500).json({
       message: "Something went wrong.",
     });

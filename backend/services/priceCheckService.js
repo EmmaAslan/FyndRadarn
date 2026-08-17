@@ -17,18 +17,23 @@ const checkAllPrices = async () => {
   const result = await pool.query("SELECT * FROM watchlists");
 
   for (const watchlist of result.rows) {
-    const priceCheckResult = await checkPrice(watchlist);
+    try {
+      const priceCheckResult = await checkPrice(watchlist);
 
-    if (priceCheckResult.hasChanged) {
-      await pool.query(
-        `UPDATE watchlists
-        SET 
-          latest_price = $2,
-          last_price_change_at = NOW()
-        WHERE id = $1`,
-        [watchlist.id, priceCheckResult.newPrice],
-      );
-      await sendPriceChangeEmail(watchlist.email, watchlist.product_title, priceCheckResult.oldPrice, priceCheckResult.newPrice, watchlist.product_url);
+      if (priceCheckResult.hasChanged) {
+        await sendPriceChangeEmail(watchlist.email, watchlist.product_title, priceCheckResult.oldPrice, priceCheckResult.newPrice, watchlist.product_url);
+
+        await pool.query(
+          `UPDATE watchlists
+          SET 
+            latest_price = $2,
+            last_price_change_at = NOW()
+          WHERE id = $1`,
+          [watchlist.id, priceCheckResult.newPrice],
+        );
+      }
+    } catch (error) {
+      console.error(`Error checking watchlist id:${watchlist.id} - ${watchlist.product_title}:`, error);
     }
   }
 };
