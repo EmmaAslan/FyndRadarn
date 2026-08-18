@@ -11,8 +11,11 @@ const parse = async (url) => {
     const title = productData.name;
     const price = productData.offers.price;
 
-    validateProduct(title, price);
-    return { title, price };
+    const image = await page.locator("picture img").first().getAttribute("src");
+    const store = "Kjell & Company";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }

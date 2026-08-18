@@ -12,8 +12,11 @@ const parse = async (url) => {
     const priceSelector = await page.locator(".pipcom-price__nowrap").first().textContent();
     const price = parsePrice(priceSelector);
 
-    validateProduct(title, price);
-    return { title, price };
+    const image = await page.locator('[data-type="MAIN_PRODUCT_IMAGE"] img').first().getAttribute("src");
+    const store = "IKEA";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }

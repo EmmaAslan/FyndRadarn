@@ -14,8 +14,11 @@ const parse = async (url) => {
     const priceSelector = await page.locator(".price--large").first().textContent();
     const price = parsePrice(priceSelector);
 
-    validateProduct(title, price);
-    return { title, price };
+    const image = await page .locator(".pdp__swiper .swiper-slide[data-index='1'] img").first().getAttribute("src");
+    const store = "Stadium";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }

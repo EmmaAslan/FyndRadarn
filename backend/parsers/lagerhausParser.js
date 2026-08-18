@@ -12,8 +12,12 @@ const parse = async (url) => {
     const priceSelector = await page.locator(".price.n77d0ua").first().textContent();
     const price = parsePrice(priceSelector);
 
-    validateProduct(title, price);
-    return { title, price };
+    const imageUrl = await page.locator('img[src*="/pub_images/original/"]').first().getAttribute("src");
+    const image = imageUrl.split("?")[0];
+    const store = "Lagerhaus";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }

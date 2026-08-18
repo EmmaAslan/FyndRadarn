@@ -6,11 +6,13 @@ const previewWatchlist = async (req, res) => {
   const { product_url } = req.body;
 
   try {
-    const { title, price } = await parse(product_url);
+    const { title, price, image, store } = await parse(product_url);
 
     res.status(200).json({
       title,
       price,
+      image,
+      store
     });
   } catch (error) {
     console.error("Error fetching watchlists:", error);
@@ -44,7 +46,7 @@ const createWatchlist = async (req, res) => {
   let result;
 
   try {
-    const { title, price } = await parse(product_url);
+    const { title, price, image, store } = await parse(product_url);
 
     result = await pool.query(
       `
@@ -53,12 +55,14 @@ const createWatchlist = async (req, res) => {
         product_url,
         start_price,
         latest_price,
-        product_title
+        product_title,
+        product_image,
+        store
       )
-      VALUES ($1, $2, $3, $4, $5)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *
       `,
-      [email, product_url, price, price, title],
+      [email, product_url, price, price, title, image, store],
     );
 
     await sendCreatedWatchlistEmail(email, title, price, product_url);

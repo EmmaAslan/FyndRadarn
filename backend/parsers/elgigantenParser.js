@@ -12,8 +12,12 @@ const parse = async (url) => {
     const priceSelector = await page.locator(".inc-vat").first().textContent();
     const price = parsePrice(priceSelector);
 
-    validateProduct(title, price);
-    return { title, price };
+    const srcset = await page.locator(".swiper-pdp .swiper-items > li:first-child img").getAttribute("srcset");
+    const image = srcset.split(",")[1].trim().split(" ")[0];
+    const store = "Elgiganten";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }

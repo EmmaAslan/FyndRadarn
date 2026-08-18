@@ -12,8 +12,11 @@ const parse = async (url) => {
     const priceSelector = await page.locator(".product__discount-price, .product__price-value").first().textContent();
     const price = parsePrice(priceSelector);
 
-    validateProduct(title, price);
-    return { title, price };
+    const image = await page.locator(".js-pdp-main-img .zoomImg").first().getAttribute("src");
+    const store = "Clas Ohlson";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }

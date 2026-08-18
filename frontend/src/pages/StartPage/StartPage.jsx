@@ -4,6 +4,8 @@ import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import { getWatchlists, previewWatchlist, createWatchlist } from "../../services/watchlistService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStore } from "@fortawesome/free-solid-svg-icons";
 
 const StartPage = () => {
   const [createEmail, setCreateEmail] = useState("");
@@ -115,13 +117,17 @@ const StartPage = () => {
               <>
                 <div className="divider"></div>
 
-                <div className="product-preview">
-                  {/* <h3>Product Preview</h3> */}
-                  <div className="product-preview-content">
-                    <span>{previewProduct.title}</span>
-                    <div className="preview-price">
-                      <small>Current price: </small>
-                      <span>{previewProduct.price} kr</span>
+                <div className="product-preview-container">
+                  <div className="product-preview">
+                    <img className="product-preview-image" src={previewProduct.image} alt={previewProduct.title} />
+
+                    <div className="product-preview-content">
+                      <span>{previewProduct.title}</span>
+
+                      <div className="preview-price">
+                        <small>Current price: </small>
+                        <span>{previewProduct.price} kr</span>
+                      </div>
                     </div>
                   </div>
 
@@ -152,14 +158,24 @@ const StartPage = () => {
                 <div className="watchlists-container">
                   {watchlists.map((item) => (
                     <div key={item.id} className="watchlist-item">
+                      <img className="watchlist-item-image" src={item.product_image} alt={item.product_title || item.product_url} />
                       <div className="watchlist-item-content">
                         <h4>{item.product_title || item.product_url}</h4>
-                        <div className="watchlist-item-info">
-                          <span>Start: {item.start_price} kr</span>
-                          <span>Latest: {item.latest_price} kr</span>
+                        <span className="watchlist-item-store">
+                          <FontAwesomeIcon icon={faStore} /> {item.store || "Unknown Store"}
+                        </span>
+                        <div className="watchlist-item-price-date">
+                          <span className="watchlist-item-start">
+                            <b>Start:</b> {item.start_price} kr
+                          </span>
+                          <span className="watchlist-item-dot">·</span>
+                          <span className="watchlist-item-latest">
+                            <b>Latest:</b> {item.latest_price} kr
+                          </span>
+                          <span className="watchlist-item-dot">·</span>
+                          <span className="watchlist-item-date">{item.last_price_change_at ? new Date(item.last_price_change_at).toLocaleString() : "No price changes"}</span>
                         </div>
                       </div>
-                      <span className="watchlist-item-date">{item.last_price_change_at ? new Date(item.last_price_change_at).toLocaleString() : "No price changes"}</span>
                     </div>
                   ))}
                 </div>

@@ -12,8 +12,11 @@ const parse = async (url) => {
     const priceSelector = await page.locator(".price").first().textContent();
     const price = parsePrice(priceSelector);
 
-    validateProduct(title, price);
-    return { title, price };
+    const image = await page.locator("#productimagelink").getAttribute("href");
+    const store = "Apotea";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }

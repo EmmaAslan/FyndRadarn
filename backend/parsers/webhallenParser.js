@@ -12,8 +12,11 @@ const parse = async (url) => {
     const priceSelector = await page.locator("#add-product-to-cart > div.price-value._large._center > span").evaluate((el) => el.firstChild.textContent);
     const price = parsePrice(priceSelector);
 
-    validateProduct(title, price);
-    return { title, price };
+    const image = await page.locator(".gallery .ximg img").first().getAttribute("src");
+    const store = "Webhallen";
+
+    validateProduct(title, price, image);
+    return { title, price, image, store };
   } finally {
     await browser.close();
   }
