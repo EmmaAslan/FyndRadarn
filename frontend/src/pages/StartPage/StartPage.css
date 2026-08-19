@@ -51,12 +51,18 @@
 
 .divider {
   border-top: 1px solid var(--border-color);
-  margin: 1rem 0;
+  margin: 0.3rem 0;
 }
 
 .watchlists-container {
   display: flex;
   flex-direction: column;
+  gap: 0.7rem;
+}
+
+.watchlist-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
 }
 
 .watchlist-item {
@@ -64,20 +70,7 @@
   grid-template-columns: 120px 1fr auto;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 0;
-}
-
-.watchlist-card:not(:last-child) {
-  border-bottom: 1px solid var(--border-color);
-  padding: 0.5rem 0;
-}
-
-.watchlist-item:first-child {
-  padding-top: 0;
-}
-
-.watchlist-item:last-child {
-  padding-bottom: 0;
+  padding: 0.5rem;
 }
 
 .watchlist-item-image {
@@ -117,6 +110,59 @@
   border-radius: 50%;
 }
 
+.watchlist-history {
+  border-top: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.toggle-history-button {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.85rem;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.toggle-history-button span:last-child {
+  color: var(--heading-primary)
+}
+
+.history-date {
+  color: var(--text-secondary);
+}
+
+.watchlist-history-container {
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+
+  padding: 0.5rem 1rem 0.75rem;
+  gap: 0.5rem;
+}
+
+.watchlist-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.watchlist-history-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.history-item-icon-prices, .history-item-date-price {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
 .success-message {
   color: var(--color-success);
   font-size: 0.9rem;

@@ -5,7 +5,7 @@ import Button from "../../components/Button/Button";
 import { getWatchlists, getPriceHistory, previewWatchlist, createWatchlist } from "../../services/watchlistService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStore } from "@fortawesome/free-solid-svg-icons";
+import { faStore, faAngleDown, faAngleUp, faClockRotateLeft, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 const StartPage = () => {
   const [createEmail, setCreateEmail] = useState("");
@@ -15,6 +15,7 @@ const StartPage = () => {
   const [watchlists, setWatchlists] = useState([]);
   const [priceHistory, setPriceHistory] = useState([]);
   const [clickedButton, setClickedButton] = useState(false);
+  const [expandedHistoryId, setExpandedHistoryId] = useState(null);
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingWatchlist, setLoadingWatchlist] = useState(false);
   const [creatingWatchlist, setCreatingWatchlist] = useState(false);
@@ -46,6 +47,7 @@ const StartPage = () => {
 
       setPriceHistory(historyData);
       setClickedButton(true);
+      // setCollapsedHistory(true);
     } catch (error) {
       console.error("Error fetching watchlists:", error);
       setSearchErrorMessage(error.message);
@@ -53,6 +55,10 @@ const StartPage = () => {
     } finally {
       setLoadingWatchlist(false);
     }
+  };
+
+  const toggleHistory = (id) => {
+    setExpandedHistoryId((currentId) => (currentId === id ? null : id));
   };
 
   const handlePreviewProduct = async () => {
@@ -186,21 +192,51 @@ const StartPage = () => {
                               <b>Latest:</b> {item.latest_price} kr
                             </span>
                             <span className="watchlist-item-dot">·</span>
-                            <span className="watchlist-item-date">{item.last_price_change_at ? new Date(item.last_price_change_at).toLocaleString() : "No price changes"}</span>
+                            <span className="watchlist-item-date">
+                              {item.last_price_change_at
+                                ? new Date(item.last_price_change_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+                                : "No price changes"}
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div>
-                        <span>Historik</span>
-                        <div>
-                          {priceHistory
-                            .find((historyItem) => historyItem.watchlistId === item.id)
-                            ?.history.map((historyItem) => (
-                              <div key={historyItem.id}>
-                                {historyItem.price_before_change} kr → {historyItem.price_after_change} kr
-                              </div>
-                            ))}
-                        </div>
+                      <div className="watchlist-history">
+                        <button className="toggle-history-button" onClick={() => toggleHistory(item.id)}>
+                          <span>
+                            <FontAwesomeIcon icon={faClockRotateLeft} /> Price changes
+                          </span>
+                          <span>
+                            {expandedHistoryId === item.id ? "Hide history" : "Show history"} <FontAwesomeIcon icon={expandedHistoryId === item.id ? faAngleUp : faAngleDown} />
+                          </span>
+                        </button>
+                        {expandedHistoryId === item.id && (
+                          <div className="watchlist-history-container">
+                            {priceHistory.find((historyItem) => historyItem.watchlistId === item.id)?.history.length > 0 ? (
+                              priceHistory
+                                .find((historyItem) => historyItem.watchlistId === item.id)
+                                ?.history.map((historyItem) => (
+                                  <div key={historyItem.id} className="watchlist-history-item">
+                                    <div className="history-item-icon-prices">
+                                      <span>
+                                        <FontAwesomeIcon icon={faArrowDown} />
+                                      </span>
+                                      <span>
+                                        {historyItem.price_before_change} kr → {historyItem.price_after_change} kr
+                                      </span>
+                                    </div>
+                                    <div className="history-item-date-price">
+                                      <span>
+                                        {new Date(historyItem.changed_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                                      </span>
+                                      <span>-500kr</span>
+                                    </div>
+                                  </div>
+                                ))
+                            ) : (
+                              <div className="message">No price changes to show</div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
