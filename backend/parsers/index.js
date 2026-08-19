@@ -8,6 +8,7 @@ const stores = [
   { domain: "lagerhaus.se", parser: require("./lagerhausParser").parse },
   { domain: "stadium.se", parser: require("./stadiumParser").parse },
   { domain: "apotea.se", parser: require("./apoteaParser").parse },
+  { domain: "cervera.se", parser: require("./cerveraParser").parse },
 ];
 
 const parse = async (url) => {
