@@ -24,6 +24,17 @@ const checkAllPrices = async () => {
         await sendPriceChangeEmail(watchlist.email, watchlist.product_title, priceCheckResult.oldPrice, priceCheckResult.newPrice, watchlist.product_url);
 
         await pool.query(
+          `INSERT INTO price_history (
+          watchlist_id, 
+          price_before_change, 
+          price_after_change,
+          changed_at
+          )
+          VALUES ($1, $2, $3, NOW())`,
+          [watchlist.id, priceCheckResult.oldPrice, priceCheckResult.newPrice],
+        );
+
+        await pool.query(
           `UPDATE watchlists
           SET 
             latest_price = $2,

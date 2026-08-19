@@ -2,7 +2,7 @@ import "./StartPage.css";
 import { useState } from "react";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-import { getWatchlists, previewWatchlist, createWatchlist } from "../../services/watchlistService";
+import { getWatchlists, getPriceHistory, previewWatchlist, createWatchlist } from "../../services/watchlistService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStore } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +13,7 @@ const StartPage = () => {
   const [previewProduct, setPreviewProduct] = useState(null);
   const [productUrl, setProductUrl] = useState("");
   const [watchlists, setWatchlists] = useState([]);
+  const [priceHistory, setPriceHistory] = useState([]);
   const [clickedButton, setClickedButton] = useState(false);
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingWatchlist, setLoadingWatchlist] = useState(false);
@@ -33,6 +34,17 @@ const StartPage = () => {
       const data = await getWatchlists(searchEmail);
 
       setWatchlists(data);
+
+      const historyData = [];
+      for (const item of data) {
+        const history = await getPriceHistory(item.id);
+        historyData.push({
+          watchlistId: item.id,
+          history,
+        });
+      }
+
+      setPriceHistory(historyData);
       setClickedButton(true);
     } catch (error) {
       console.error("Error fetching watchlists:", error);
@@ -157,23 +169,37 @@ const StartPage = () => {
               {watchlists.length > 0 ? (
                 <div className="watchlists-container">
                   {watchlists.map((item) => (
-                    <div key={item.id} className="watchlist-item">
-                      <img className="watchlist-item-image" src={item.product_image} alt={item.product_title || item.product_url} />
-                      <div className="watchlist-item-content">
-                        <h4>{item.product_title || item.product_url}</h4>
-                        <span className="watchlist-item-store">
-                          <FontAwesomeIcon icon={faStore} /> {item.store || "Unknown Store"}
-                        </span>
-                        <div className="watchlist-item-price-date">
-                          <span className="watchlist-item-start">
-                            <b>Start:</b> {item.start_price} kr
+                    <div className="watchlist-card">
+                      <div key={item.id} className="watchlist-item">
+                        <img className="watchlist-item-image" src={item.product_image} alt={item.product_title || item.product_url} />
+                        <div className="watchlist-item-content">
+                          <h4>{item.product_title || item.product_url}</h4>
+                          <span className="watchlist-item-store">
+                            <FontAwesomeIcon icon={faStore} /> {item.store || "Unknown Store"}
                           </span>
-                          <span className="watchlist-item-dot">·</span>
-                          <span className="watchlist-item-latest">
-                            <b>Latest:</b> {item.latest_price} kr
-                          </span>
-                          <span className="watchlist-item-dot">·</span>
-                          <span className="watchlist-item-date">{item.last_price_change_at ? new Date(item.last_price_change_at).toLocaleString() : "No price changes"}</span>
+                          <div className="watchlist-item-price-date">
+                            <span className="watchlist-item-start">
+                              <b>Start:</b> {item.start_price} kr
+                            </span>
+                            <span className="watchlist-item-dot">·</span>
+                            <span className="watchlist-item-latest">
+                              <b>Latest:</b> {item.latest_price} kr
+                            </span>
+                            <span className="watchlist-item-dot">·</span>
+                            <span className="watchlist-item-date">{item.last_price_change_at ? new Date(item.last_price_change_at).toLocaleString() : "No price changes"}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <span>Historik</span>
+                        <div>
+                          {priceHistory
+                            .find((historyItem) => historyItem.watchlistId === item.id)
+                            ?.history.map((historyItem) => (
+                              <div key={historyItem.id}>
+                                {historyItem.price_before_change} kr → {historyItem.price_after_change} kr
+                              </div>
+                            ))}
                         </div>
                       </div>
                     </div>

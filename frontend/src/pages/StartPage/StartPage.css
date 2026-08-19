@@ -67,8 +67,9 @@
   padding: 0.5rem 0;
 }
 
-.watchlist-item:not(:last-child) {
+.watchlist-card:not(:last-child) {
   border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 0;
 }
 
 .watchlist-item:first-child {
