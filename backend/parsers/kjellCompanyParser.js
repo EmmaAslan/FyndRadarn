@@ -1,5 +1,5 @@
 const { getPage } = require("./helpers/playwright");
-const { parsePrice } = require("./helpers/parsePrice");
+const { cleanText } = require("./helpers/cleanText");
 const { validateProduct } = require("./helpers/validateProduct");
 
 const parse = async (url) => {
@@ -8,7 +8,7 @@ const parse = async (url) => {
   try {
     const productData = JSON.parse(await page.locator('script[type="application/ld+json"]').first().textContent());
 
-    const title = productData.name;
+    const title = cleanText(productData.name);
     const price = productData.offers.price;
 
     const image = await page.locator("picture img").first().getAttribute("src");

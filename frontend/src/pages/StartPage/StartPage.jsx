@@ -2,10 +2,10 @@ import "./StartPage.css";
 import { useState } from "react";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-import { getWatchlists, getPriceHistory, previewWatchlist, createWatchlist } from "../../services/watchlistService";
+import { getWatchlists, getPriceHistory, previewWatchlist, createWatchlist, deleteWatchlist } from "../../services/watchlistService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStore, faAngleDown, faAngleUp, faClockRotateLeft, faArrowDown, faArrowUp, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faStore, faAngleDown, faAngleUp, faClockRotateLeft, faArrowDown, faArrowUp, faArrowRight, faXmark, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const StartPage = () => {
   const [createEmail, setCreateEmail] = useState("");
@@ -19,7 +19,9 @@ const StartPage = () => {
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingWatchlist, setLoadingWatchlist] = useState(false);
   const [creatingWatchlist, setCreatingWatchlist] = useState(false);
-  const [watchlistCreated, setWatchlistCreated] = useState(false);
+  const [deletingWatchlist, setDeletingWatchlist] = useState(false);
+  const [watchlistAction, setWatchlistAction] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const [createErrorMessage, setCreateErrorMessage] = useState("");
   const [searchErrorMessage, setSearchErrorMessage] = useState("");
 
@@ -66,9 +68,19 @@ const StartPage = () => {
       maximumFractionDigits: 2,
     });
 
+  const showFeedback = (message, type) => {
+    setWatchlistAction({
+      message,
+      type,
+    });
+
+    setTimeout(() => {
+      setWatchlistAction(null);
+    }, 5000);
+  };
+
   const handlePreviewProduct = async () => {
     setPreviewProduct(null);
-    setWatchlistCreated(false);
     setLoadingPreview(true);
     setCreateErrorMessage("");
 
@@ -97,7 +109,7 @@ const StartPage = () => {
       const data = await createWatchlist(watchlistData);
 
       setWatchlists((prevWatchlists) => [data, ...prevWatchlists]);
-      setWatchlistCreated(true);
+      showFeedback("✓ Watchlist added successfully!", "success");
       setPreviewProduct(null);
       setProductUrl("");
     } catch (error) {
@@ -108,11 +120,34 @@ const StartPage = () => {
     }
   };
 
+  const handleDeleteWatchlist = async (event, id) => {
+    event.preventDefault();
+    setDeletingWatchlist(true);
+    setCreateErrorMessage("");
+
+    try {
+      await deleteWatchlist(id);
+
+      setWatchlists((prevWatchlists) => prevWatchlists.filter((watchlist) => watchlist.id !== id));
+
+      showFeedback("✓ Watchlist deleted successfully!", "success");
+    } catch (error) {
+      console.error("Error deleting watchlist:", error);
+      setCreateErrorMessage(error.message);
+    } finally {
+      setDeletingWatchlist(false);
+    }
+  };
+
   return (
     <div className="start-page">
       <h1>Welcome to FyndRadarn</h1>
+      <div className="feedback-message">
+        {watchlistAction && <span className={`${watchlistAction.type}-message`}>{watchlistAction.message}</span>}
+        {createErrorMessage && <span className="error-message">{createErrorMessage}</span>}
+      </div>
       <div className="start-page-content">
-        <div className="start-page-card">
+        <div className="start-page-card left-card">
           <h2>Create a new Watchlist</h2>
           <form className="create-watchlist-form" onSubmit={handleCreateWatchlist}>
             <Input label="Create Email" name="email" type="email" placeholder="Your email" value={createEmail} onChange={(e) => setCreateEmail(e.target.value)} />
@@ -124,17 +159,12 @@ const StartPage = () => {
               value={productUrl}
               onChange={(e) => {
                 setProductUrl(e.target.value);
-                setWatchlistCreated(false);
               }}
             />
             <Button type="button" onClick={handlePreviewProduct} disabled={!productUrl || !isValidCreateEmail || loadingPreview}>
               Preview product
             </Button>
             {loadingPreview && <LoadingSpinner />}
-
-            {watchlistCreated && <span className="success-message">✓ Product added successfully!</span>}
-
-            {createErrorMessage && <span className="error-message">{createErrorMessage}</span>}
 
             {!loadingPreview && previewProduct && !createErrorMessage && (
               <>
@@ -149,7 +179,7 @@ const StartPage = () => {
 
                       <div className="preview-price">
                         <small>Current price: </small>
-                        <span>{previewProduct.price} kr</span>
+                        <span>{previewProduct.price.toFixed(2)} kr</span>
                       </div>
                     </div>
                   </div>
@@ -162,7 +192,7 @@ const StartPage = () => {
             )}
           </form>
         </div>
-        <div className="start-page-card">
+        <div className="start-page-card right-card">
           <h2>My Watchlists</h2>
           <form className="search-watchlists-form" onSubmit={handleGetWatchlists}>
             <Input label="Search Email" name="email" type="email" placeholder="Your email" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
@@ -180,8 +210,8 @@ const StartPage = () => {
               {watchlists.length > 0 ? (
                 <div className="watchlists-container">
                   {watchlists.map((item) => (
-                    <div className="watchlist-card">
-                      <div key={item.id} className="watchlist-item">
+                    <div key={item.id} className="watchlist-card">
+                      <div className="watchlist-item">
                         <img className="watchlist-item-image" src={item.product_image} alt={item.product_title || item.product_url} />
                         <div className="watchlist-item-content">
                           <h4>{item.product_title || item.product_url}</h4>
@@ -203,52 +233,75 @@ const StartPage = () => {
                                 : "No price changes"}
                             </span>
                           </div>
+                          <button className="watchlist-item-delete" onClick={() => setConfirmDelete(item.id)} disabled={deletingWatchlist}>
+                            <FontAwesomeIcon icon={faXmark} />
+                          </button>
                         </div>
                       </div>
-                      <div className="watchlist-history">
-                        <button className="toggle-history-button" onClick={() => toggleHistory(item.id)}>
-                          <span>
-                            <FontAwesomeIcon icon={faClockRotateLeft} /> Price changes
-                          </span>
-                          <span>
-                            {expandedHistoryId === item.id ? "Hide history" : "Show history"} <FontAwesomeIcon icon={expandedHistoryId === item.id ? faAngleUp : faAngleDown} />
-                          </span>
-                        </button>
-                        {expandedHistoryId === item.id && (
-                          <div className="watchlist-history-container">
-                            {priceHistory.find((historyItem) => historyItem.watchlistId === item.id)?.history.length > 0 ? (
-                              priceHistory
-                                .find((historyItem) => historyItem.watchlistId === item.id)
-                                ?.history.map((historyItem) => {
-                                  const priceDifference = historyItem.price_after_change - historyItem.price_before_change;
-                                  return (
-                                    <div key={historyItem.id} className="watchlist-history-item">
-                                      <div className="history-item-icon-prices">
-                                        <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
-                                          <FontAwesomeIcon icon={priceDifference < 0 ? faArrowDown : faArrowUp} />
-                                        </span>
-                                        <span>
-                                          {formatPrice(historyItem.price_before_change)} kr <FontAwesomeIcon icon={faArrowRight} /> {formatPrice(historyItem.price_after_change)} kr
-                                        </span>
-                                      </div>
-                                      <div className="history-item-date-price">
-                                        <span>
-                                          {new Date(historyItem.changed_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
-                                        </span>
-                                        <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
-                                          {priceDifference > 0 ? "+" : ""}
-                                          {formatPrice(priceDifference)} kr
-                                        </span>
-                                      </div>
-                                    </div>
-                                  );
-                                })
-                            ) : (
-                              <div className="message">No price changes to show</div>
-                            )}
+                      {confirmDelete === item.id ? (
+                        <div className="confirm-delete-container">
+                          <div className="confirm-delete-message">
+                            <span>
+                              <FontAwesomeIcon icon={faCircleExclamation} />
+                            </span>
+                            <span>Are you sure you want to delete this watchlist?</span>
                           </div>
-                        )}
-                      </div>
+                          <div className="confirm-delete-buttons">
+                            <Button type="button" variant="secondary" onClick={() => setConfirmDelete(null)}>
+                              Cancel
+                            </Button>
+                            <Button type="button" variant="danger" onClick={(event) => handleDeleteWatchlist(event, item.id)}>
+                              Delete
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="watchlist-history">
+                          <button className="toggle-history-button" onClick={() => toggleHistory(item.id)}>
+                            <span>
+                              <FontAwesomeIcon icon={faClockRotateLeft} /> Price changes
+                            </span>
+                            <span>
+                              {expandedHistoryId === item.id ? "Hide history" : "Show history"} <FontAwesomeIcon icon={expandedHistoryId === item.id ? faAngleUp : faAngleDown} />
+                            </span>
+                          </button>
+                          {expandedHistoryId === item.id && (
+                            <div className="watchlist-history-container">
+                              {priceHistory.find((historyItem) => historyItem.watchlistId === item.id)?.history.length > 0 ? (
+                                priceHistory
+                                  .find((historyItem) => historyItem.watchlistId === item.id)
+                                  ?.history.map((historyItem) => {
+                                    const priceDifference = historyItem.price_after_change - historyItem.price_before_change;
+                                    return (
+                                      <div key={historyItem.id} className="watchlist-history-item">
+                                        <div className="history-item-icon-prices">
+                                          <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
+                                            <FontAwesomeIcon icon={priceDifference < 0 ? faArrowDown : faArrowUp} />
+                                          </span>
+                                          <span>
+                                            {formatPrice(historyItem.price_before_change)} kr <FontAwesomeIcon icon={faArrowRight} /> {formatPrice(historyItem.price_after_change)}{" "}
+                                            kr
+                                          </span>
+                                        </div>
+                                        <div className="history-item-date-price">
+                                          <span>
+                                            {new Date(historyItem.changed_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                                          </span>
+                                          <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
+                                            {priceDifference > 0 ? "+" : ""}
+                                            {formatPrice(priceDifference)} kr
+                                          </span>
+                                        </div>
+                                      </div>
+                                    );
+                                  })
+                              ) : (
+                                <div className="message">No price changes to show</div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

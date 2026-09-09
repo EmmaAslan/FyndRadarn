@@ -1,16 +1,17 @@
 const { Resend } = require("resend");
+const { cleanText } = require("../parsers/helpers/cleanText");
 
 const resend = new Resend(process.env.RESEND);
 
 const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, productUrl) => {
   try {
-    return await resend.emails.send({
+    const result = await resend.emails.send({
       from: "FyndRadarn <onboarding@resend.dev>",
       to: email,
-      subject: `You're now tracking: ${productTitle}`,
+      subject: `You're now tracking: ${cleanText(productTitle)}`,
       html: `
     <h1>Price tracking is now active for this product.</h1>
-    <h2>${productTitle}</h2>
+    <h2>${cleanText(productTitle)}</h2>
 
     <p>Start price: <strong>${startPrice} kr</strong></p>
 
@@ -18,6 +19,10 @@ const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, produc
 
     `,
     });
+
+    console.log(`[EMAIL] Created watchlist notification sent: ${productTitle}`);
+
+    return result;
   } catch (error) {
     throw new Error("Email could not be sent.");
   }
@@ -25,13 +30,13 @@ const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, produc
 
 const sendPriceChangeEmail = async (email, productTitle, oldPrice, newPrice, productUrl) => {
   try {
-    return await resend.emails.send({
+    const result = await resend.emails.send({
       from: "FyndRadarn <onboarding@resend.dev>",
       to: email,
-      subject: `Price Alert: ${productTitle}`,
+      subject: `Price Alert: ${cleanText(productTitle)}`,
       html: `
     <h1>Price change detected!</h1>
-    <h2>${productTitle}</h2>
+    <h2>${cleanText(productTitle)}</h2>
 
     <p>We found a new price for a product you're watching.</p>
 
@@ -44,6 +49,10 @@ const sendPriceChangeEmail = async (email, productTitle, oldPrice, newPrice, pro
 
     `,
     });
+
+    console.log(`[EMAIL] Price change notification sent: ${productTitle}`);
+
+    return result;
   } catch (error) {
     throw new Error("Email could not be sent.");
   }

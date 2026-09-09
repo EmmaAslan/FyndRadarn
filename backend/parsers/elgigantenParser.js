@@ -1,4 +1,5 @@
 const { getPage } = require("./helpers/playwright");
+const { cleanText } = require("./helpers/cleanText");
 const { parsePrice } = require("./helpers/parsePrice");
 const { validateProduct } = require("./helpers/validateProduct");
 
@@ -7,7 +8,7 @@ const parse = async (url) => {
 
   try {
     const titleLocator = page.locator("h1");
-    const title = await titleLocator.first().textContent();
+    const title = cleanText(await titleLocator.first().textContent());
 
     const priceSelector = await page.locator(".inc-vat").first().textContent();
     const price = parsePrice(priceSelector);

@@ -1,4 +1,5 @@
 const { getPage } = require("./helpers/playwright");
+const { cleanText } = require("./helpers/cleanText");
 const { parsePrice } = require("./helpers/parsePrice");
 const { validateProduct } = require("./helpers/validateProduct");
 
@@ -7,14 +8,16 @@ const parse = async (url) => {
 
   try {
     const titleLocator = page.locator(".pdp__product-name");
-    const title = (await titleLocator.first().textContent()).trim().replace(/(^|[\s-])(\p{L})/gu, (_, separator, char) => {
-      return separator + char.toUpperCase();
-    });
+    const title = cleanText(await titleLocator.first().textContent())
+      .trim()
+      .replace(/(^|[^\p{L}])(\p{L})/gu, (_, separator, char) => {
+        return separator + char.toUpperCase();
+      });
 
     const priceSelector = await page.locator(".price--large").first().textContent();
     const price = parsePrice(priceSelector);
 
-    const image = await page .locator(".pdp__swiper .swiper-slide[data-index='1'] img").first().getAttribute("src");
+    const image = await page.locator(".pdp__swiper .swiper-slide[data-index='1'] img").first().getAttribute("src");
     const store = "Stadium";
 
     validateProduct(title, price, image);

@@ -10,11 +10,14 @@ const parse = async (url) => {
     const titleLocator = page.locator("h1");
     const title = cleanText(await titleLocator.first().textContent());
 
-    const priceSelector = await page.locator("div[class*='ProductPrice_root'] span").first().textContent();
+    const priceSelector = await page.locator('meta[property="product:price:amount"]').getAttribute("content");
+    if (!priceSelector) {
+      throw new Error("Price not found on the page.");
+    }
     const price = parsePrice(priceSelector);
 
-    const image = await page.locator("section[aria-label] img").first().getAttribute("src");
-    const store = "Cervera";
+    const image = await page.locator(".product-gallery__image--main").first().getAttribute("src");
+    const store = "Bauhaus";
 
     validateProduct(title, price, image);
     return { title, price, image, store };

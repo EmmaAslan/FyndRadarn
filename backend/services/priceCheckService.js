@@ -21,6 +21,10 @@ const checkAllPrices = async () => {
       const priceCheckResult = await checkPrice(watchlist);
 
       if (priceCheckResult.hasChanged) {
+        console.log(`[PRICE CHANGE] ${watchlist.product_title}: ${priceCheckResult.oldPrice} kr → ${priceCheckResult.newPrice} kr`);
+
+        console.log(`[EMAIL] Sending price change notification...`);
+
         await sendPriceChangeEmail(watchlist.email, watchlist.product_title, priceCheckResult.oldPrice, priceCheckResult.newPrice, watchlist.product_url);
 
         await pool.query(

@@ -156,9 +156,40 @@ const getPriceHistory = async (req, res) => {
   }
 };
 
+const deleteWatchlist = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query(
+      `
+      DELETE FROM watchlists
+      WHERE id = $1
+      `,
+      [id],
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        message: "No matching watchlist was found.",
+      });
+    }
+
+    res.status(200).json({
+      message: "Watchlist deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Error deleting watchlist:", error);
+
+    res.status(500).json({
+      message: "Something went wrong.",
+    });
+  }
+};
+
 module.exports = {
   previewWatchlist,
   createWatchlist,
   getWatchlists,
   getPriceHistory,
+  deleteWatchlist,
 };

@@ -34,7 +34,7 @@ export const getPriceHistory = async (id) => {
 
     throw error;
   }
-}
+};
 
 export const previewWatchlist = async (watchlistData) => {
   try {
@@ -79,6 +79,27 @@ export const createWatchlist = async (watchlistData) => {
     }
 
     return data;
+  } catch (error) {
+    if (error.message === "Failed to fetch") {
+      error.message = "The server is currently unavailable. Please try again later.";
+    }
+
+    throw error;
+  }
+};
+
+export const deleteWatchlist = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:3000/watchlists/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      console.log("Delete response status:", response.status);
+      throw new Error("Failed to delete watchlist");
+    }
+
+    return response.json();
   } catch (error) {
     if (error.message === "Failed to fetch") {
       error.message = "The server is currently unavailable. Please try again later.";
