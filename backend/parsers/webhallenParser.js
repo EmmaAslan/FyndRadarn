@@ -14,10 +14,9 @@ const parse = async (url) => {
     const price = parsePrice(priceSelector);
 
     const image = await page.locator(".gallery .ximg img").first().getAttribute("src");
-    const store = "Webhallen";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

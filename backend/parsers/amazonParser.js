@@ -15,10 +15,9 @@ const parse = async (url) => {
     const price = parsePrice(`${whole}${fraction}`);
 
     const image = (await page.locator("#landingImage").getAttribute("data-old-hires")) || (await page.locator("#landingImage").getAttribute("src"));
-    const store = "Amazon";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

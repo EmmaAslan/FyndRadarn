@@ -17,10 +17,9 @@ const parse = async (url) => {
     const price = parsePrice(priceSelector);
 
     const image = await page.locator(".product-gallery__image--main").first().getAttribute("src");
-    const store = "Bauhaus";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

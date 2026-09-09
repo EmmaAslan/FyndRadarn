@@ -18,10 +18,9 @@ const parse = async (url) => {
     const price = parsePrice(priceSelector);
 
     const image = await page.locator(".pdp__swiper .swiper-slide[data-index='1'] img").first().getAttribute("src");
-    const store = "Stadium";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

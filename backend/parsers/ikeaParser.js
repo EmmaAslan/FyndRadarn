@@ -14,10 +14,9 @@ const parse = async (url) => {
     const price = parsePrice(priceSelector);
 
     const image = await page.locator('[data-type="MAIN_PRODUCT_IMAGE"] img').first().getAttribute("src");
-    const store = "IKEA";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

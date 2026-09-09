@@ -15,10 +15,9 @@ const parse = async (url) => {
 
     const imageUrl = await page.locator('img[src*="/pub_images/original/"]').first().getAttribute("src");
     const image = imageUrl.split("?")[0];
-    const store = "Lagerhaus";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

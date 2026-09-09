@@ -14,10 +14,9 @@ const parse = async (url) => {
     const price = parsePrice(priceSelector);
 
     const image = await page.locator("section[aria-label] img").first().getAttribute("src");
-    const store = "Cervera";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

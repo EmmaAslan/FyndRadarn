@@ -1,16 +1,16 @@
 const stores = [
-  { domain: "webhallen.com", parser: require("./webhallenParser").parse },
-  { domain: "ahlens.se", parser: require("./ahlensParser").parse },
-  { domain: "elgiganten.se", parser: require("./elgigantenParser").parse },
-  { domain: "kjell.com", parser: require("./kjellCompanyParser").parse },
-  { domain: "clasohlson.com", parser: require("./clasOhlsonParser").parse },
-  { domain: "ikea.com", parser: require("./ikeaParser").parse },
-  { domain: "lagerhaus.se", parser: require("./lagerhausParser").parse },
-  { domain: "stadium.se", parser: require("./stadiumParser").parse },
-  { domain: "apotea.se", parser: require("./apoteaParser").parse },
-  { domain: "cervera.se", parser: require("./cerveraParser").parse },
-  { domain: "bauhaus.se", parser: require("./bauhausParser").parse },
-  { domain: "amazon.se", parser: require("./amazonParser").parse },
+  { domain: "webhallen.com", name: "Webhallen", parser: require("./webhallenParser").parse },
+  { domain: "ahlens.se", name: "Ahlens", parser: require("./ahlensParser").parse },
+  { domain: "elgiganten.se", name: "Elgiganten", parser: require("./elgigantenParser").parse },
+  { domain: "kjell.com", name: "Kjell & Company", parser: require("./kjellCompanyParser").parse },
+  { domain: "clasohlson.com", name: "Clas Ohlson", parser: require("./clasOhlsonParser").parse },
+  { domain: "ikea.com", name: "IKEA", parser: require("./ikeaParser").parse },
+  { domain: "lagerhaus.se", name: "Lagerhaus", parser: require("./lagerhausParser").parse },
+  { domain: "stadium.se", name: "Stadium", parser: require("./stadiumParser").parse },
+  { domain: "apotea.se", name: "Apotea", parser: require("./apoteaParser").parse },
+  { domain: "cervera.se", name: "Cervera", parser: require("./cerveraParser").parse },
+  { domain: "bauhaus.se", name: "Bauhaus", parser: require("./bauhausParser").parse },
+  { domain: "amazon.se", name: "Amazon", parser: require("./amazonParser").parse },
 ];
 
 const parse = async (url) => {
@@ -25,9 +25,14 @@ const parse = async (url) => {
 
   const store = stores.find((store) => url.includes(store.domain));
   if (store) {
-    return await store.parser(url);
+    const result = await store.parser(url);
+
+    return {
+      ...result,
+      store: store.name,
+    };
   }
   throw new Error("This store is not supported yet.");
 };
 
-module.exports = { parse };
+module.exports = { parse, stores };

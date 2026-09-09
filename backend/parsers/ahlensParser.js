@@ -14,10 +14,9 @@ const parse = async (url) => {
     const price = parsePrice(priceSelector);
 
     const image = await page.locator('div[role="listitem"] img').first().getAttribute("src");
-    const store = "Åhléns";
 
     validateProduct(title, price, image);
-    return { title, price, image, store };
+    return { title, price, image };
   } finally {
     await browser.close();
   }

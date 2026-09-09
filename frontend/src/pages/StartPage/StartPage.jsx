@@ -4,6 +4,7 @@ import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import { getWatchlists, getPriceHistory, previewWatchlist, createWatchlist, deleteWatchlist } from "../../services/watchlistService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import SupportedStores from "../../components/SupportedStores/SupportedStores";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStore, faAngleDown, faAngleUp, faClockRotateLeft, faArrowDown, faArrowUp, faArrowRight, faXmark, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
@@ -313,6 +314,9 @@ const StartPage = () => {
             </>
           )}
         </div>
+      </div>
+      <div>
+        <SupportedStores />
       </div>
     </div>
   );
