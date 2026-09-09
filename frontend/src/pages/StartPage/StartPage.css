@@ -46,6 +46,13 @@
   align-items: flex-start;
 }
 
+.left-column {
+  width: 45.2%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .start-page-card {
   background: var(--color-background-secondary);
   border-radius: 12px;
@@ -58,11 +65,12 @@
 }
 
 .start-page-card.left-card {
-  width: 45.2%;
+  width: 100%;
 }
 
 .start-page-card.right-card {
-  width: 54.8%;
+  flex: 1;
+  width: auto;
 }
 
 .start-page-card form {

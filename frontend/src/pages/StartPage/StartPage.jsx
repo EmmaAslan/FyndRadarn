@@ -148,51 +148,57 @@ const StartPage = () => {
         {createErrorMessage && <span className="error-message">{createErrorMessage}</span>}
       </div>
       <div className="start-page-content">
-        <div className="start-page-card left-card">
-          <h2>Create a new Watchlist</h2>
-          <form className="create-watchlist-form" onSubmit={handleCreateWatchlist}>
-            <Input label="Create Email" name="email" type="email" placeholder="Your email" value={createEmail} onChange={(e) => setCreateEmail(e.target.value)} />
-            <Input
-              label="Product URL"
-              name="url"
-              type="text"
-              placeholder="Add product URL"
-              value={productUrl}
-              onChange={(e) => {
-                setProductUrl(e.target.value);
-              }}
-            />
-            <Button type="button" onClick={handlePreviewProduct} disabled={!productUrl || !isValidCreateEmail || loadingPreview}>
-              Preview product
-            </Button>
-            {loadingPreview && <LoadingSpinner />}
+        <div className="left-column">
+          <div className="start-page-card left-card">
+            <h2>Create a new Watchlist</h2>
+            <form className="create-watchlist-form" onSubmit={handleCreateWatchlist}>
+              <Input label="Create Email" name="email" type="email" placeholder="Your email" value={createEmail} onChange={(e) => setCreateEmail(e.target.value)} />
+              <Input
+                label="Product URL"
+                name="url"
+                type="text"
+                placeholder="Add product URL"
+                value={productUrl}
+                onChange={(e) => {
+                  setProductUrl(e.target.value);
+                }}
+              />
+              <Button type="button" onClick={handlePreviewProduct} disabled={!productUrl || !isValidCreateEmail || loadingPreview}>
+                Preview product
+              </Button>
+              {loadingPreview && <LoadingSpinner />}
 
-            {!loadingPreview && previewProduct && !createErrorMessage && (
-              <>
-                <div className="divider"></div>
+              {!loadingPreview && previewProduct && !createErrorMessage && (
+                <>
+                  <div className="divider"></div>
 
-                <div className="product-preview-container">
-                  <div className="product-preview">
-                    <img className="product-preview-image" src={previewProduct.image} alt={previewProduct.title} />
+                  <div className="product-preview-container">
+                    <div className="product-preview">
+                      <img className="product-preview-image" src={previewProduct.image} alt={previewProduct.title} />
 
-                    <div className="product-preview-content">
-                      <span>{previewProduct.title}</span>
+                      <div className="product-preview-content">
+                        <span>{previewProduct.title}</span>
 
-                      <div className="preview-price">
-                        <small>Current price: </small>
-                        <span>{previewProduct.price.toFixed(2)} kr</span>
+                        <div className="preview-price">
+                          <small>Current price: </small>
+                          <span>{previewProduct.price.toFixed(2)} kr</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <Button type="submit" disabled={creatingWatchlist}>
-                    Add to Watchlist {creatingWatchlist && <LoadingSpinner />}
-                  </Button>
-                </div>
-              </>
-            )}
-          </form>
+                    <Button type="submit" disabled={creatingWatchlist}>
+                      Add to Watchlist {creatingWatchlist && <LoadingSpinner />}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </form>
+          </div>
+          <div>
+            <SupportedStores />
+          </div>
         </div>
+
         <div className="start-page-card right-card">
           <h2>My Watchlists</h2>
           <form className="search-watchlists-form" onSubmit={handleGetWatchlists}>
@@ -239,6 +245,7 @@ const StartPage = () => {
                           </button>
                         </div>
                       </div>
+
                       {confirmDelete === item.id ? (
                         <div className="confirm-delete-container">
                           <div className="confirm-delete-message">
@@ -314,9 +321,6 @@ const StartPage = () => {
             </>
           )}
         </div>
-      </div>
-      <div>
-        <SupportedStores />
       </div>
     </div>
   );

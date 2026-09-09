@@ -8,7 +8,7 @@ const stores = [
   { domain: "lagerhaus.se", name: "Lagerhaus", parser: require("./lagerhausParser").parse },
   { domain: "stadium.se", name: "Stadium", parser: require("./stadiumParser").parse },
   { domain: "apotea.se", name: "Apotea", parser: require("./apoteaParser").parse },
-  { domain: "cervera.se", name: "Cervera", parser: require("./cerveraParser").parse },
+  { domain: "cervera.se", name: "Cervera", logoDomain: "cervera.fi", parser: require("./cerveraParser").parse },
   { domain: "bauhaus.se", name: "Bauhaus", parser: require("./bauhausParser").parse },
   { domain: "amazon.se", name: "Amazon", parser: require("./amazonParser").parse },
 ];
