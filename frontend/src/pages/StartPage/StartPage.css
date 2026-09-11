@@ -123,7 +123,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  min-width: 0; /* Allow text to shrink and ellipsis to work */
+  min-width: 0;
 }
 
 .watchlist-item-content h4 {
@@ -154,15 +154,28 @@
   border-radius: 50%;
 }
 
-.watchlist-item-delete {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+.watchlist-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  align-self: stretch;
+  padding: 0.1rem 0.1rem 0.1rem 0;
+}
+
+.watchlist-item-delete,
+.watchlist-item-link {
   border: none;
   background: none;
   color: var(--text-muted);
   font-size: 1rem;
   cursor: pointer;
+  padding: 0.2rem;
+}
+
+.watchlist-item-link {
+  color: var(--heading-primary);
+  text-decoration: none;
 }
 
 .confirm-delete-container {
@@ -179,7 +192,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  /* color: var(--color-danger); */
   font-weight: 600;
 } 
 

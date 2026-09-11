@@ -6,7 +6,18 @@ import { getWatchlists, getPriceHistory, previewWatchlist, createWatchlist, dele
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import SupportedStores from "../../components/SupportedStores/SupportedStores";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStore, faAngleDown, faAngleUp, faClockRotateLeft, faArrowDown, faArrowUp, faArrowRight, faXmark, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStore,
+  faAngleDown,
+  faAngleUp,
+  faClockRotateLeft,
+  faArrowDown,
+  faArrowUp,
+  faArrowRight,
+  faXmark,
+  faCircleExclamation,
+  faArrowUpRightFromSquare,
+} from "@fortawesome/free-solid-svg-icons";
 
 const StartPage = () => {
   const [createEmail, setCreateEmail] = useState("");
@@ -216,102 +227,113 @@ const StartPage = () => {
 
               {watchlists.length > 0 ? (
                 <div className="watchlists-container">
-                  {watchlists.map((item) => (
-                    <div key={item.id} className="watchlist-card">
-                      <div className="watchlist-item">
-                        <img className="watchlist-item-image" src={item.product_image} alt={item.product_title || item.product_url} />
-                        <div className="watchlist-item-content">
-                          <h4>{item.product_title || item.product_url}</h4>
-                          <span className="watchlist-item-store">
-                            <FontAwesomeIcon icon={faStore} /> {item.store || "Unknown Store"}
-                          </span>
-                          <div className="watchlist-item-price-date">
-                            <span className="watchlist-item-start">
-                              <b>Start:</b> {item.start_price} kr
-                            </span>
-                            <span className="watchlist-item-dot">·</span>
-                            <span className="watchlist-item-latest">
-                              <b>Latest:</b> {item.latest_price} kr
-                            </span>
-                            <span className="watchlist-item-dot">·</span>
-                            <span className="watchlist-item-date">
-                              {item.last_price_change_at
-                                ? new Date(item.last_price_change_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
-                                : "No price changes"}
-                            </span>
-                          </div>
-                          <button className="watchlist-item-delete" onClick={() => setConfirmDelete(item.id)} disabled={deletingWatchlist}>
-                            <FontAwesomeIcon icon={faXmark} />
-                          </button>
-                        </div>
-                      </div>
+                  {watchlists.map((item) => {
+                    const productUrl = item.product_url ? `${item.product_url}${item.product_url.includes("?") ? "&" : "?"}utm_source=fyndradarn` : "#";
 
-                      {confirmDelete === item.id ? (
-                        <div className="confirm-delete-container">
-                          <div className="confirm-delete-message">
-                            <span>
-                              <FontAwesomeIcon icon={faCircleExclamation} />
+                    return (
+                      <div key={item.id} className="watchlist-card">
+                        <div className="watchlist-item">
+                          <img className="watchlist-item-image" src={item.product_image} alt={item.product_title || item.product_url} />
+                          <div className="watchlist-item-content">
+                            <h4>{item.product_title || item.product_url}</h4>
+                            <span className="watchlist-item-store">
+                              <FontAwesomeIcon icon={faStore} /> {item.store || "Unknown Store"}
                             </span>
-                            <span>Are you sure you want to delete this watchlist?</span>
-                          </div>
-                          <div className="confirm-delete-buttons">
-                            <Button type="button" variant="secondary" onClick={() => setConfirmDelete(null)}>
-                              Cancel
-                            </Button>
-                            <Button type="button" variant="danger" onClick={(event) => handleDeleteWatchlist(event, item.id)}>
-                              Delete
-                            </Button>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="watchlist-history">
-                          <button className="toggle-history-button" onClick={() => toggleHistory(item.id)}>
-                            <span>
-                              <FontAwesomeIcon icon={faClockRotateLeft} /> Price changes
-                            </span>
-                            <span>
-                              {expandedHistoryId === item.id ? "Hide history" : "Show history"} <FontAwesomeIcon icon={expandedHistoryId === item.id ? faAngleUp : faAngleDown} />
-                            </span>
-                          </button>
-                          {expandedHistoryId === item.id && (
-                            <div className="watchlist-history-container">
-                              {priceHistory.find((historyItem) => historyItem.watchlistId === item.id)?.history.length > 0 ? (
-                                priceHistory
-                                  .find((historyItem) => historyItem.watchlistId === item.id)
-                                  ?.history.map((historyItem) => {
-                                    const priceDifference = historyItem.price_after_change - historyItem.price_before_change;
-                                    return (
-                                      <div key={historyItem.id} className="watchlist-history-item">
-                                        <div className="history-item-icon-prices">
-                                          <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
-                                            <FontAwesomeIcon icon={priceDifference < 0 ? faArrowDown : faArrowUp} />
-                                          </span>
-                                          <span>
-                                            {formatPrice(historyItem.price_before_change)} kr <FontAwesomeIcon icon={faArrowRight} /> {formatPrice(historyItem.price_after_change)}{" "}
-                                            kr
-                                          </span>
-                                        </div>
-                                        <div className="history-item-date-price">
-                                          <span>
-                                            {new Date(historyItem.changed_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
-                                          </span>
-                                          <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
-                                            {priceDifference > 0 ? "+" : ""}
-                                            {formatPrice(priceDifference)} kr
-                                          </span>
-                                        </div>
-                                      </div>
-                                    );
-                                  })
-                              ) : (
-                                <div className="message">No price changes to show</div>
-                              )}
+                            <div className="watchlist-item-price-date">
+                              <span className="watchlist-item-start">
+                                <b>Start:</b> {item.start_price} kr
+                              </span>
+                              <span className="watchlist-item-dot">·</span>
+                              <span className="watchlist-item-latest">
+                                <b>Latest:</b> {item.latest_price} kr
+                              </span>
+                              <span className="watchlist-item-dot">·</span>
+                              <span className="watchlist-item-date">
+                                {item.last_price_change_at
+                                  ? new Date(item.last_price_change_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+                                  : "No price changes"}
+                              </span>
                             </div>
-                          )}
+                          </div>
+
+                          <div className="watchlist-item-actions">
+                            <button className="watchlist-item-delete" onClick={() => setConfirmDelete(item.id)} disabled={deletingWatchlist}>
+                              <FontAwesomeIcon icon={faXmark} />
+                            </button>
+
+                            <a className="watchlist-item-link" href={productUrl} target="_blank" rel="noopener noreferrer" aria-label="Open product">
+                              <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                            </a>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  ))}
+
+                        {confirmDelete === item.id ? (
+                          <div className="confirm-delete-container">
+                            <div className="confirm-delete-message">
+                              <span>
+                                <FontAwesomeIcon icon={faCircleExclamation} />
+                              </span>
+                              <span>Are you sure you want to delete this watchlist?</span>
+                            </div>
+                            <div className="confirm-delete-buttons">
+                              <Button type="button" variant="secondary" onClick={() => setConfirmDelete(null)}>
+                                Cancel
+                              </Button>
+                              <Button type="button" variant="danger" onClick={(event) => handleDeleteWatchlist(event, item.id)}>
+                                Delete
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="watchlist-history">
+                            <button className="toggle-history-button" onClick={() => toggleHistory(item.id)}>
+                              <span>
+                                <FontAwesomeIcon icon={faClockRotateLeft} /> Price changes
+                              </span>
+                              <span>
+                                {expandedHistoryId === item.id ? "Hide history" : "Show history"} <FontAwesomeIcon icon={expandedHistoryId === item.id ? faAngleUp : faAngleDown} />
+                              </span>
+                            </button>
+                            {expandedHistoryId === item.id && (
+                              <div className="watchlist-history-container">
+                                {priceHistory.find((historyItem) => historyItem.watchlistId === item.id)?.history.length > 0 ? (
+                                  priceHistory
+                                    .find((historyItem) => historyItem.watchlistId === item.id)
+                                    ?.history.map((historyItem) => {
+                                      const priceDifference = historyItem.price_after_change - historyItem.price_before_change;
+                                      return (
+                                        <div key={historyItem.id} className="watchlist-history-item">
+                                          <div className="history-item-icon-prices">
+                                            <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
+                                              <FontAwesomeIcon icon={priceDifference < 0 ? faArrowDown : faArrowUp} />
+                                            </span>
+                                            <span>
+                                              {formatPrice(historyItem.price_before_change)} kr <FontAwesomeIcon icon={faArrowRight} />{" "}
+                                              {formatPrice(historyItem.price_after_change)} kr
+                                            </span>
+                                          </div>
+                                          <div className="history-item-date-price">
+                                            <span>
+                                              {new Date(historyItem.changed_at).toLocaleString("sv-SE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                                            </span>
+                                            <span className={priceDifference > 0 ? "difference-red" : "difference-green"}>
+                                              {priceDifference > 0 ? "+" : ""}
+                                              {formatPrice(priceDifference)} kr
+                                            </span>
+                                          </div>
+                                        </div>
+                                      );
+                                    })
+                                ) : (
+                                  <div className="message">No price changes to show</div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <>

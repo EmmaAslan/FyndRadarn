@@ -10,7 +10,7 @@ const parse = async (url) => {
     const titleLocator = page.locator("h1");
     const title = cleanText(await titleLocator.first().textContent());
 
-    const priceSelector = await page.locator("div[class*='ProductPrice_root'] span").first().textContent();
+    const priceSelector = await page.locator("span[class*='ProductInfoBlock_pdpPrice']").first().textContent();
     const price = parsePrice(priceSelector);
 
     const image = await page.locator("section[aria-label] img").first().getAttribute("src");
