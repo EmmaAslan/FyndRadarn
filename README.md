@@ -61,6 +61,10 @@ FyndRadarn aims to provide users with a simple way to:
 
 - PostgreSQL (Supabase)
 
+## External Services
+
+- [Logo.dev](https://logo.dev/) - Used for displaying store logos
+
 ## Roadmap
 
 ### ✅ MVP 1 - Anonymous Price Tracking (Completed)
