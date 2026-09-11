@@ -25,7 +25,7 @@ const checkAllPrices = async () => {
 
         console.log(`[EMAIL] Sending price change notification...`);
 
-        await sendPriceChangeEmail(watchlist.email, watchlist.product_title, priceCheckResult.oldPrice, priceCheckResult.newPrice, watchlist.product_url);
+        await sendPriceChangeEmail(watchlist.email, watchlist.product_title, priceCheckResult.oldPrice, priceCheckResult.newPrice, watchlist.product_url, watchlist.store);
 
         await pool.query(
           `INSERT INTO price_history (

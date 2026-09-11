@@ -1,23 +1,28 @@
 const { Resend } = require("resend");
 const { cleanText } = require("../parsers/helpers/cleanText");
 
+const fs = require("fs");
+const path = require("path");
+
+const watchlistCreatedTemplate = fs.readFileSync(path.join(__dirname, "emailTemplates", "watchlistCreated.html"), "utf8");
+
+const priceChangeTemplate = fs.readFileSync(path.join(__dirname, "emailTemplates", "priceChange.html"), "utf8");
+
 const resend = new Resend(process.env.RESEND);
 
-const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, productUrl) => {
+const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, productUrl, store) => {
   try {
+    const html = watchlistCreatedTemplate
+      .replace("{{PRODUCT_TITLE}}", cleanText(productTitle))
+      .replace("{{STORE}}", store)
+      .replace("{{PRICE}}", `${startPrice} kr`)
+      .replace('href="{{PRODUCT_URL}}"', `href="${productUrl}"`);
+
     const result = await resend.emails.send({
       from: "FyndRadarn <onboarding@resend.dev>",
       to: email,
       subject: `You're now tracking: ${cleanText(productTitle)}`,
-      html: `
-    <h1>Price tracking is now active for this product.</h1>
-    <h2>${cleanText(productTitle)}</h2>
-
-    <p>Start price: <strong>${startPrice} kr</strong></p>
-
-    <p><a href="${productUrl}">Go to product</a></p>
-
-    `,
+      html,
     });
 
     console.log(`[EMAIL] Created watchlist notification sent: ${productTitle}`);
@@ -28,26 +33,21 @@ const sendCreatedWatchlistEmail = async (email, productTitle, startPrice, produc
   }
 };
 
-const sendPriceChangeEmail = async (email, productTitle, oldPrice, newPrice, productUrl) => {
+const sendPriceChangeEmail = async (email, productTitle, oldPrice, newPrice, productUrl, store) => {
   try {
+    const html = priceChangeTemplate
+      .replace("{{PRODUCT_TITLE}}", cleanText(productTitle))
+      .replace("{{STORE}}", store)
+      .replace("{{OLD_PRICE}}", oldPrice)
+      .replace("{{NEW_PRICE}}", newPrice)
+      .replace("{{ARROW}}", newPrice < oldPrice ? "↓" : "↑")
+      .replace('href="{{PRODUCT_URL}}"', `href="${productUrl}"`);
+
     const result = await resend.emails.send({
       from: "FyndRadarn <onboarding@resend.dev>",
       to: email,
       subject: `Price Alert: ${cleanText(productTitle)}`,
-      html: `
-    <h1>Price change detected!</h1>
-    <h2>${cleanText(productTitle)}</h2>
-
-    <p>We found a new price for a product you're watching.</p>
-
-    <p>
-      Old price: <strong>${oldPrice} kr</strong><br>
-      New price: <strong>${newPrice} kr</strong>
-    </p>
-
-    <p><a href="${productUrl}">Go to product</a></p>
-
-    `,
+      html,
     });
 
     console.log(`[EMAIL] Price change notification sent: ${productTitle}`);

@@ -65,7 +65,7 @@ const createWatchlist = async (req, res) => {
       [email, product_url, price, price, title, image, store],
     );
 
-    await sendCreatedWatchlistEmail(email, title, price, product_url);
+    await sendCreatedWatchlistEmail(email, title, price, product_url, store);
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
