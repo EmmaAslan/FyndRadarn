@@ -10,6 +10,8 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validated, setValidated] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [signupError, setSignupError] = useState("");
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -25,26 +27,24 @@ const Signup = () => {
     };
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>_\-+=/\\[\];'`~]).{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>_\-+=/\\[\];'`~]).{8,}$/;
 
     if (!emailValue.trim()) {
-      newErrors.email = "E-post är obligatorisk.";
+      newErrors.email = "Email is required.";
     } else if (!emailRegex.test(emailValue.trim())) {
-      newErrors.email = "Ange en giltig e-postadress.";
+      newErrors.email = "Wrong email format.";
     }
 
     if (!passwordValue) {
-      newErrors.password = "Lösenord är obligatoriskt.";
+      newErrors.password = "Password is required.";
     } else if (!passwordRegex.test(passwordValue)) {
-      newErrors.password =
-        "Minst 8 tecken, en versal, en gemen, en siffra och ett specialtecken.";
+      newErrors.password = "At least 8 characters, one uppercase, one lowercase, one number and one special character.";
     }
 
     if (!confirmPasswordValue) {
-      newErrors.confirmPassword = "Bekräfta ditt lösenord.";
+      newErrors.confirmPassword = "Confirm your password.";
     } else if (passwordValue !== confirmPasswordValue) {
-      newErrors.confirmPassword = "Lösenorden matchar inte.";
+      newErrors.confirmPassword = "Passwords do not match.";
     }
 
     return newErrors;
@@ -66,22 +66,30 @@ const Signup = () => {
 
     try {
       await signUp(email.trim(), password);
-    
+
+      setSignupSuccess(true);
+      setSignupError("");
+
       console.log("Account created");
     } catch (error) {
+      setSignupSuccess(false);
+      setSignupError(error.message.charAt(0).toUpperCase() + error.message.slice(1));
+
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  return (
+  return signupSuccess ? (
     <div className="signup-page">
-      <h1> Registrera nytt konto </h1>
+      <h1> Register a new account </h1>
+      
       <form className="signup-form" onSubmit={handleSignup}>
+        {signupError && <p className="signup-error error-signupError">{signupError}</p>}
         <Input
           type="email"
-          placeholder="E-post"
+          placeholder="Email"
           status={validated && errors.email ? "error" : ""}
           value={email}
           onChange={(e) => {
@@ -97,7 +105,7 @@ const Signup = () => {
 
         <Input
           type="password"
-          placeholder="Lösenord"
+          placeholder="Password"
           status={validated && errors.password ? "error" : ""}
           value={password}
           onChange={(e) => {
@@ -113,7 +121,7 @@ const Signup = () => {
 
         <Input
           type="password"
-          placeholder="Bekräfta lösenord"
+          placeholder="Confirm Password"
           status={validated && errors.confirmPassword ? "error" : ""}
           value={confirmPassword}
           onChange={(e) => {
@@ -125,20 +133,23 @@ const Signup = () => {
           }}
         />
 
-        {errors.confirmPassword && (
-          <p className="signup-error">{errors.confirmPassword}</p>
-        )}
+        {errors.confirmPassword && <p className="signup-error">{errors.confirmPassword}</p>}
 
         <Button type="submit" disabled={loading}>
-          {loading ? <Loading size="sm" /> : "Skapa konto"}
+          {loading ? <Loading size="sm" /> : "Create Account"}
         </Button>
       </form>
 
       <div className="signup-links">
         <span>
-          <a href="/login">Har du redan ett konto?</a>
+          <a href="/login">Do you already have an account?</a>
         </span>
       </div>
+    </div>
+  ) : (
+    <div className="signup-success">
+      <h1> Account created! </h1>
+      <p> Please check your email to confirm your account.</p>
     </div>
   );
 };
