@@ -4,20 +4,23 @@ FyndRadarn is a portfolio project focused on building a modern full-stack web ap
 
 Users can create anonymous price watchlists by providing an email address and a product URL. The application automatically monitors product prices and sends email notifications when prices change.
 
-The project is currently under active development. MVP 1 is complete, and additional features and improvements are planned for future releases.
-
-> 🚧 This project is under active development. The first MVP is complete, and new features are continuously being added.
+> 🚧 This project is under active development. MVP 1 and MVP 2 are complete, and additional features and improvements are planned for future releases.
 
 ## Current Status
 
-MVP 1 has been completed and includes the complete anonymous price tracking workflow.
+MVP 1 and MVP 2 have been completed and include the complete anonymous price tracking workflow with an improved user experience.
 
 Users can:
 - Create anonymous watchlists
 - Preview product information before creating a watchlist
+- View their existing watchlists
+- Track products from multiple online stores
+- View product images and current prices
+- See when a product was last checked
+- View price change history
+- Delete existing watchlists
 - Receive confirmation emails
 - Automatically receive email notifications when prices change
-- View their existing watchlists
 
 ## Project Goals
 
@@ -37,6 +40,11 @@ FyndRadarn aims to provide users with a simple way to:
 - Preview product information before watchlist creation
 - Automatic product price parsing
 - Scheduled price monitoring
+- Display product images
+- Display latest price check timestamp
+- Display price change history
+- Delete existing watchlists
+- Support multiple online stores
 - Email confirmation when creating a watchlist
 - Email notifications on price changes
 - PostgreSQL persistence
@@ -54,6 +62,7 @@ FyndRadarn aims to provide users with a simple way to:
 
 - Node.js
 - Express
+- Playwright
 - PostgreSQL (`pg`)
 - dotenv
 
@@ -81,23 +90,42 @@ FyndRadarn aims to provide users with a simple way to:
 - [x] Send confirmation email
 - [x] Send price change notifications
 
-### 🚧 MVP 2 - Improved User Experience
+### ✅ MVP 2 - Improved User Experience (Completed)
 
-- [ ] Support additional online stores
-- [ ] Display product images
-- [ ] Display latest price check timestamp
-- [ ] Display price change history
-- [ ] Delete existing watchlists
-- [ ] Improve email templates
-- [ ] Improve loading and error states
+- [x] Support additional online stores
+- [x] Display product images
+- [x] Display latest price check timestamp
+- [x] Display price change history
+- [x] Delete existing watchlists
+- [x] Improve email templates
+- [x] Improve loading and error states
 
 ## Demo 
+### MVP 2
+![Fyndradarn Demo](assets/mvp2-fyndradarn-demo.gif)
+
+[▶️ Watch full demo](assets/mvp2-fyndradarn-demo.mp4) 
+
 ### MVP 1
 ![Fyndradarn Demo](assets/mvp1-fyndradarn-demo.gif)
 
 [▶️ Watch full demo](assets/mvp1-fyndradarn-demo.mp4) 
 
 ## Screenshots 
+
+### MVP 2
+#### Home Page
+![Home page](assets/mvp2-fyndradarn-home-page.png)
+#### Product Preview
+![Product preview](assets/mvp2-fyndradarn-product-preview.png)
+#### My Watchlists
+![My Watchlists](assets/mvp2-fyndradarn-my-watchlists.png)
+#### Unsupported store
+![Unsupported store](assets/mvp2-fyndradarn-unsupported-store.png)
+#### Confirmation email
+![Confirmation email](assets/mvp2-fyndradarn-confirmation-email.png)
+#### Price Change email
+![Price change email](assets/mvp2-fyndradarn-price-change-email.png)
 
 ### MVP 1
 
