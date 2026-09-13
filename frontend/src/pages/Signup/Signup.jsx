@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { signUp } from "../../services/authService";
 import Button from "../../components/Button/Button.jsx";
 import Input from "../../components/Input/Input.jsx";
 import Loading from "../../components/LoadingSpinner/LoadingSpinner.jsx";
@@ -63,11 +64,15 @@ const Signup = () => {
 
     setLoading(true);
 
-    // Här kommer API-anropet senare
-    setTimeout(() => {
-      console.log("Signup...");
+    try {
+      await signUp(email.trim(), password);
+    
+      console.log("Account created");
+    } catch (error) {
+      console.error(error);
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
