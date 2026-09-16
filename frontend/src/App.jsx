@@ -9,27 +9,30 @@ import Signup from "./pages/Signup/Signup.jsx";
 // import AddProduct from "./pages/AddProduct/AddProduct.jsx";
 // import Settings from "./pages/Settings/Settings.jsx";
 import StartPage from "./pages/StartPage/StartPage.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
   return (
     <div className="app">
-      <Header />
+      <AuthProvider>
+        <Header />
 
-      <main className="main">
-        <Routes>
-          {/* <Route path="/" element={<Dashboard />} />
+        <main className="main">
+          <Routes>
+            {/* <Route path="/" element={<Dashboard />} />
           
          
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/settings" element={<Settings />} /> */}
-          <Route path="/" element={<StartPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </main>
+            <Route path="/" element={<StartPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </main>
 
-      <Footer />
+        <Footer />
+      </AuthProvider>
     </div>
   );
 }

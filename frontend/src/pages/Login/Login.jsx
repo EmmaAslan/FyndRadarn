@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../../services/authService";
+import { signIn, getCurrentUser } from "../../services/authService";
 import Button from "../../components/Button/Button.jsx";
 import Input from "../../components/Input/Input.jsx";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+
 import "./Login.css";
 
 const Login = () => {
@@ -54,6 +55,8 @@ const Login = () => {
 
     try {
       await signIn(email.trim(), password);
+      const user = await getCurrentUser();
+console.log("Current user:", user);
 
       setLoginError("");
 
