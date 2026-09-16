@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn, getCurrentUser } from "../../services/authService";
 import Button from "../../components/Button/Button.jsx";
@@ -6,6 +6,7 @@ import Input from "../../components/Input/Input.jsx";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 import "./Login.css";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,8 +17,9 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { user, loading } = useContext(AuthContext);
 
   const validateForm = (emailValue, passwordValue) => {
     const newErrors = {
@@ -51,30 +53,36 @@ const Login = () => {
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       await signIn(email.trim(), password);
       const user = await getCurrentUser();
-console.log("Current user:", user);
+      console.log("Current user:", user);
 
       setLoginError("");
 
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       setLoginError(error.message.charAt(0).toUpperCase() + error.message.slice(1));
 
       console.error(error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/", { replace: true });
+    }
+  }, [loading, user, navigate]);
+
   return (
     <div className="login-page">
-      <h1> Sign in </h1>
+      <h1> Log In </h1>
       <form className="login-form" onSubmit={handleLogin}>
-      {loginError && <p className="login-error error-loginError">{loginError}</p>}
+        {loginError && <p className="login-error error-loginError">{loginError}</p>}
         <Input
           type="email"
           placeholder="Email"
@@ -108,8 +116,8 @@ console.log("Current user:", user);
 
         {errors.password && <p className="login-error">{errors.password}</p>}
 
-        <Button type="submit" disabled={loading}>
-          {loading ? <LoadingSpinner size="sm" /> : "Continue"}
+        <Button type="submit" disabled={isloading}>
+          {isloading ? <LoadingSpinner size="sm" /> : "Continue"}
         </Button>
       </form>
 

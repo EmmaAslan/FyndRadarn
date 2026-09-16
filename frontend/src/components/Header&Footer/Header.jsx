@@ -14,6 +14,7 @@ const Header = () => {
   const { user, loading } = useContext(AuthContext);
 
   console.log("Auth user:", user);
+  console.log("Auth user email:", user?.email);
   console.log("Auth loading:", loading);
 
   const handleSignOut = async () => {

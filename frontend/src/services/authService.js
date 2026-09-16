@@ -41,7 +41,7 @@ export const getCurrentUser = async () => {
     throw new Error(error.message);
   }
 
-  return data;
+  return data.user;
 };
 
 export const onAuthStateChange = (callback) => {
