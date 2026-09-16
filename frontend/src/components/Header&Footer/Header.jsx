@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./HeaderFooter.css";
+import { signOut } from "../../services/authService.js";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faHouse, faTag, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 // import { useTranslation } from "react-i18next";
@@ -8,6 +9,19 @@ import "./HeaderFooter.css";
 const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   // const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      
+      navigate("/login");
+    }
+    catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,6 +77,7 @@ const Header = () => {
               <h1>FyndRadarn</h1>
             </NavLink>
           </div>
+          <div><button onClick={handleSignOut}>Sign Out</button></div>
         </header>
       )}
     </>

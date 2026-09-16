@@ -81,10 +81,10 @@ const Signup = () => {
     }
   };
 
-  return signupSuccess ? (
+  return !signupSuccess ? (
     <div className="signup-page">
       <h1> Register a new account </h1>
-      
+
       <form className="signup-form" onSubmit={handleSignup}>
         {signupError && <p className="signup-error error-signupError">{signupError}</p>}
         <Input

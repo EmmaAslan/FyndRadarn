@@ -11,13 +11,29 @@ export const signUp = async (email, password) => {
   }
 
   return data;
-}
+};
 
-export const signIn = async () => {}
+export const signIn = async (email, password) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-export const signOut = async () => {}
+  if (error) {
+    throw new Error(error.message);
+  }
 
-export const getCurrentUser = () => {}
+  return data;
+};
 
-export const onAuthStateChange = () => {}
+export const signOut = async () => {
+  const { error } = await supabase.auth.signOut();
 
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const getCurrentUser = () => {};
+
+export const onAuthStateChange = () => {};

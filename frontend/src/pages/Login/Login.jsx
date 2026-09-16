@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signIn } from "../../services/authService";
 import Button from "../../components/Button/Button.jsx";
 import Input from "../../components/Input/Input.jsx";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
@@ -8,11 +10,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validateForm = (emailValue, passwordValue) => {
     const newErrors = {
@@ -48,20 +52,29 @@ const Login = () => {
 
     setLoading(true);
 
-    // Här kommer API-anropet senare
-    setTimeout(() => {
-      console.log("Login...");
+    try {
+      await signIn(email.trim(), password);
+
+      setLoginError("");
+
+      navigate("/");
+    } catch (error) {
+      setLoginError(error.message.charAt(0).toUpperCase() + error.message.slice(1));
+
+      console.error(error);
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
     <div className="login-page">
-      <h1> Logga in </h1>
+      <h1> Sign in </h1>
       <form className="login-form" onSubmit={handleLogin}>
+      {loginError && <p className="login-error error-loginError">{loginError}</p>}
         <Input
           type="email"
-          placeholder="E-post"
+          placeholder="Email"
           status={validated && errors.email ? "error" : ""}
           value={email}
           onChange={(e) => {
@@ -77,7 +90,7 @@ const Login = () => {
 
         <Input
           type="password"
-          placeholder="Lösenord"
+          placeholder="Password"
           status={validated && errors.password ? "error" : ""}
           value={password}
           onChange={(e) => {
@@ -93,16 +106,16 @@ const Login = () => {
         {errors.password && <p className="login-error">{errors.password}</p>}
 
         <Button type="submit" disabled={loading}>
-          {loading ? <LoadingSpinner size="sm" /> : "Fortsätt"}
+          {loading ? <LoadingSpinner size="sm" /> : "Continue"}
         </Button>
       </form>
 
       <div className="login-links">
         <span>
-          <a href="/forgot-password">Glömt lösenord?</a>
+          <a href="/forgot-password">Forgot password?</a>
         </span>
         <span>
-          <a href="/signup">Registrera nytt konto</a>
+          <a href="/signup">Create new account</a>
         </span>
       </div>
     </div>
