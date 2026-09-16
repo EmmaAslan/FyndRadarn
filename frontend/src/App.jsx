@@ -22,9 +22,30 @@ function App() {
           <Routes>
             {/* <Route path="/" element={<Dashboard />} />*/}
 
-            <Route path="/watchlist" element={<Watchlist />} />
-            <Route path="/add-product" element={<AddProduct />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route
+              path="/watchlist"
+              element={
+                <ProtectedRoute>
+                  <Watchlist />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add-product"
+              element={
+                <ProtectedRoute>
+                  <AddProduct />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/"
               element={
