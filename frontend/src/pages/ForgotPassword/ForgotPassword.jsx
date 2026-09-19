@@ -5,13 +5,17 @@ import Button from "../../components/Button/Button.jsx";
 import "./ForgotPassword.css";
 import { useState } from "react";
 
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
       await resetPassword(email);
@@ -19,6 +23,8 @@ const ForgotPassword = () => {
     } catch (error) {
       setError(error.message);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -37,7 +43,9 @@ const ForgotPassword = () => {
           }}
         />
 
-        <Button type="submit">Send new password</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? <LoadingSpinner size="sm" /> : "Send reset email"}{" "}
+        </Button>
       </form>
     </div>
   );

@@ -6,12 +6,14 @@ import Input from "../../components/Input/Input.jsx";
 import Button from "../../components/Button/Button.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validated, setValidated] = useState(false);
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({
     password: "",
@@ -55,12 +57,16 @@ const ResetPassword = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       await updateUser(password);
       setSuccess("Password has been reset.");
     } catch (error) {
       setError(error.message);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,7 +113,9 @@ const ResetPassword = () => {
         />
         {errors.confirmPassword && <p className="reset-password-error">{errors.confirmPassword}</p>}
 
-        <Button type="submit">Save new password</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? <LoadingSpinner size="sm" /> : "Save new password"}
+        </Button>
       </form>
     </div>
   );

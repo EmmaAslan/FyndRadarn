@@ -18,6 +18,7 @@ const Login = () => {
     password: "",
   });
   const [isloading, setIsLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const [emailNotConfirmed, setEmailNotConfirmed] = useState(false);
   const [resendMessage, setResendMessage] = useState("");
   const [resendCooldown, setResendCooldown] = useState(false);
@@ -80,12 +81,15 @@ const Login = () => {
   };
 
   const handleResendVerification = async () => {
+    setResendLoading(true);
     try {
       await resendVerificationEmail(email.trim());
       setResendMessage("Verification email has been sent. Please check your inbox.");
       setResendCooldown(60);
     } catch (error) {
       setResendMessage(error.message.charAt(0).toUpperCase() + error.message.slice(1));
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -115,8 +119,8 @@ const Login = () => {
       <form className="login-form" onSubmit={handleLogin}>
         {loginError && <p className="login-error error-loginError">{loginError}</p>}
         {emailNotConfirmed && (
-          <button type="button" onClick={handleResendVerification} className="resend-verification-button" disabled={resendCooldown > 0}>
-            {resendCooldown > 0 ? `Resend Verification Email (${resendCooldown})` : "Resend Verification Email"}
+          <button type="button" onClick={handleResendVerification} className="resend-verification-button" disabled={resendCooldown > 0 || resendLoading}>
+            {resendLoading ? <LoadingSpinner size="sm" /> : resendCooldown > 0 ? `Resend Verification Email (${resendCooldown})` : "Resend Verification Email"}
           </button>
         )}
         {resendMessage && <p className="login-error resend-message">{resendMessage}</p>}
