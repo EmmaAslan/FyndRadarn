@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import "./HeaderFooter.css";
@@ -11,6 +11,8 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   // const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isResetPasswordPage = location.pathname === "/reset-password";
   const { user, loading } = useContext(AuthContext);
 
   console.log("Auth user:", user);
@@ -48,7 +50,7 @@ const Header = () => {
             </NavLink>
           </div>
 
-          {user ? (
+          {isResetPasswordPage ? null : user ? (
             <>
               <NavLink to="/">
                 <FontAwesomeIcon icon={faHouse} />
@@ -79,7 +81,7 @@ const Header = () => {
             </NavLink>
           </div>
 
-          {user ? (
+          {isResetPasswordPage ? null : user ? (
             <>
               <nav className="header-nav">
                 <NavLink to="/">

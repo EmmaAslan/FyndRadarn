@@ -11,6 +11,8 @@ import Settings from "./pages/Settings/Settings.jsx";
 import StartPage from "./pages/StartPage/StartPage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword/ResetPassword.jsx";
 
 function App() {
   return (
@@ -54,8 +56,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </main>
 
