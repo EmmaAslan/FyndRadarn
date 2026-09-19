@@ -76,6 +76,8 @@
   --button-danger-text: var(--white-100);
   --button-danger-border: var(--red-600);
 
+  --button-disabled: var(--gray-500);
+
   --button-padding-y: 10px;
   --button-padding-x: 12px;
   --button-font-size: 0.875rem;

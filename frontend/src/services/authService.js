@@ -13,6 +13,17 @@ export const signUp = async (email, password) => {
   return data;
 };
 
+export const resendVerificationEmail = async (email) => {
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+
 export const signIn = async (email, password) => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,

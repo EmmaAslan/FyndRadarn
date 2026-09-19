@@ -52,7 +52,31 @@
   margin: -0.25rem 0;
 }
 
-.error-loginError {
-  margin-bottom: 0.25rem;
+.error-loginError, .resend-message {
   text-align: center;
+}
+
+.resend-message {
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.resend-verification-button {
+  background: none;
+  border: none;
+  color: var(--color-link-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  margin: 0 !important;
+}
+
+.resend-verification-button:hover {
+  color: var(--color-link-hover);
+}
+
+.resend-verification-button:disabled {
+  color: var(--button-disabled);
+  text-decoration: none;
+  cursor: not-allowed;
 }
