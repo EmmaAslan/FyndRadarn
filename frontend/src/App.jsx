@@ -4,7 +4,7 @@ import Footer from "./components/Header&Footer/Footer.jsx";
 import Header from "./components/Header&Footer/Header.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Signup from "./pages/Signup/Signup.jsx";
-//import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import Watchlist from "./pages/Watchlist/Watchlist.jsx";
 import AddProduct from "./pages/AddProduct/AddProduct.jsx";
 import Settings from "./pages/Settings/Settings.jsx";
@@ -22,7 +22,7 @@ function App() {
 
         <main className="main">
           <Routes>
-            {/* <Route path="/" element={<Dashboard />} />*/}
+            <Route path="/dashboard" element={<Dashboard />} />
 
             <Route
               path="/watchlist"

@@ -1,6 +1,9 @@
 import Button from "../../components/Button/Button";
 import "./Dashboard.css";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getWatchlists, getPriceHistory, previewWatchlist, createWatchlist, deleteWatchlist } from "../../services/watchlistService";
+import SupportedStores from "../../components/SupportedStores/SupportedStores";
 import { faArrowRight, faTag, faBullseye, faPiggyBank, faBell, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import WatchCard from "../../components/WatchCard/WatchCard";
 import useScreenSize from "../../hooks/useScreenSize";
@@ -8,7 +11,7 @@ import { useTranslation, Trans } from "react-i18next";
 import formatRelativeDate from "../../utils/formatRelativeDate";
 import i18n from "../../i18n";
 
-import watchlists from "../../data/watchlists";
+// import watchlists from "../../data/watchlists";
 import updates from "../../data/updates";
 
 const currency = "kr"; // Replace with actual currency logic when implemented
@@ -28,8 +31,54 @@ const updateIconClasses = {
 };
 
 const Dashboard = () => {
+  const [watchlists, setWatchlists] = useState([]);
+  const [loadingWatchlist, setLoadingWatchlist] = useState(false);
+  const [searchErrorMessage, setSearchErrorMessage] = useState("");
+
   const screenSize = useScreenSize();
   const { t } = useTranslation();
+
+  // const handleGetWatchlists = async (event) => {
+  //   event.preventDefault();
+  //   setSearchErrorMessage("");
+  //   setLoadingWatchlist(true);
+  //   try {
+  //     const data = await getWatchlists(searchEmail);
+
+  //     setWatchlists(data);
+
+  //     const historyData = [];
+  //     for (const item of data) {
+  //       const history = await getPriceHistory(item.id);
+  //       historyData.push({
+  //         watchlistId: item.id,
+  //         history,
+  //       });
+  //     }
+
+  //     setPriceHistory(historyData);
+  //     setClickedButton(true);
+  //   } catch (error) {
+  //     console.error("Error fetching watchlists:", error);
+  //     setSearchErrorMessage(error.message);
+  //     setClickedButton(false);
+  //   } finally {
+  //     setLoadingWatchlist(false);
+  //   }
+  // };
+
+  useEffect(() => {
+    const fetchWatchlists = async () => {
+      try {
+        const data = await getWatchlists();
+        setWatchlists(data);
+      } catch (error) {
+        console.error("Error fetching watchlists:", error);
+      }
+    };
+
+    fetchWatchlists();
+  }, []);
 
   return (
     <>

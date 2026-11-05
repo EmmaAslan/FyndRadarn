@@ -104,22 +104,14 @@ const createWatchlist = async (req, res) => {
 };
 
 const getWatchlists = async (req, res) => {
-  const { email } = req.query;
-
-  if (!email) {
-    return res.status(400).json({
-      message: "Email is required.",
-    });
-  }
-
   try {
     const result = await pool.query(
       `
       SELECT * FROM watchlists
-      WHERE email = $1
+      WHERE user_id = $1
       ORDER BY created_at DESC
       `,
-      [email],
+      [req.user.id],
     );
 
     res.status(200).json(result.rows);
@@ -140,10 +132,12 @@ const getPriceHistory = async (req, res) => {
       `
       SELECT *
       FROM price_history
-      WHERE watchlist_id = $1
+      JOIN watchlists ON watchlists.id = price_history.watchlist_id
+      WHERE price_history.watchlist_id = $1
+      AND watchlists.user_id = $2
       ORDER BY changed_at DESC
       `,
-      [id],
+      [id, req.user.id],
     );
 
     res.status(200).json(result.rows);
@@ -164,8 +158,9 @@ const deleteWatchlist = async (req, res) => {
       `
       DELETE FROM watchlists
       WHERE id = $1
+      AND user_id = $2
       `,
-      [id],
+      [id, req.user.id],
     );
 
     if (result.rowCount === 0) {

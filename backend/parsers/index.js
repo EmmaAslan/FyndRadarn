@@ -11,6 +11,9 @@ const stores = [
   { domain: "cervera.se", name: "Cervera", logoDomain: "cervera.fi", parser: require("./cerveraParser").parse },
   { domain: "bauhaus.se", name: "Bauhaus", parser: require("./bauhausParser").parse },
   { domain: "amazon.se", name: "Amazon", parser: require("./amazonParser").parse },
+  { domain: "ellos.se", name: "Ellos", parser: require("./ellosParser").parse },
+  { domain: "dinsko.se", name: "DinSko", parser: require("./dinskoParser").parse },
+  { domain: "boozt.com", name: "Boozt", parser: require("./booztParser").parse },
 ];
 
 const parse = async (url) => {

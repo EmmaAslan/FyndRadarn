@@ -1,6 +1,21 @@
-export const getWatchlists = async (email) => {
+import { supabase } from "../config/supabaseClient";
+
+const getAuthHeaders = async () => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${session?.access_token}`,
+  };
+};
+
+export const getWatchlists = async () => {
   try {
-    const response = await fetch(`http://localhost:3000/watchlists?email=${encodeURIComponent(email)}`);
+    const response = await fetch(`http://localhost:3000/watchlists`, {
+      headers: await getAuthHeaders(),
+    });
     const data = await response.json();
 
     if (!response.ok) {
@@ -19,7 +34,7 @@ export const getWatchlists = async (email) => {
 
 export const getPriceHistory = async (id) => {
   try {
-    const response = await fetch(`http://localhost:3000/watchlists/${id}/history`);
+    const response = await fetch(`http://localhost:3000/watchlists/${id}/history`, { headers: await getAuthHeaders() });
     const data = await response.json();
 
     if (!response.ok) {
@@ -40,9 +55,7 @@ export const previewWatchlist = async (watchlistData) => {
   try {
     const response = await fetch("http://localhost:3000/watchlists/preview", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: await getAuthHeaders(),
       body: JSON.stringify(watchlistData),
     });
 
@@ -61,7 +74,7 @@ export const previewWatchlist = async (watchlistData) => {
     throw error;
   }
 };
-
+ 
 export const createWatchlist = async (watchlistData) => {
   try {
     const response = await fetch("http://localhost:3000/watchlists", {
@@ -92,6 +105,7 @@ export const deleteWatchlist = async (id) => {
   try {
     const response = await fetch(`http://localhost:3000/watchlists/${id}`, {
       method: "DELETE",
+      headers: await getAuthHeaders(),
     });
 
     if (!response.ok) {
